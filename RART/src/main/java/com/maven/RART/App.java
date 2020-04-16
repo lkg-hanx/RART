@@ -11,19 +11,19 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.dto.OutDto;
+import com.utils.FromatLines;
 import com.utils.ReadFile;
 import com.utils.WriterFreemarker;
 
 
-/**
- * Hello world!
- *
- */
 public class App {
 	
 	private static final Logger log = Logger.getLogger(App.class);
 	
-	
+	/**
+	 * 启动方法
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			
@@ -37,13 +37,20 @@ public class App {
 				log.error("上传文件为空");
 				return;
 			}
+			
 			//文件读取
 			List<String> lines = ReadFile.read(uploadFile);
 			if(null == lines || lines.size() == 0) {
 				log.error("上传文件为空");
 				return;
 			}
-			// TODO 整形共同处理
+			
+			// 整形共通处理
+			List<String> newLines = FromatLines.format(lines);
+			if(null == newLines || newLines.size() == 0) {
+				log.error("上传文件共通处理后为空");
+				return;
+			}
 			
 			// TODO 情报取得处理
 			OutDto dto = new OutDto();

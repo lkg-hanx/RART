@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>RART</title>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<script language="javascript"> 
+		function showSection(objId){
+			var objDiv=document.getElementById(objId);  
+							var objDiv0=document.getElementById("id0");   
+				objDiv0.style.display="none";
+				var objDiv1=document.getElementById("id1");   
+				objDiv1.style.display="none";
+			objDiv.style.display="";
+		}
+	</script>
+</head>
+
+<body>
+	<section class="hero p-0">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-3 bg-primary-dark py-5 text-center">
+					<div class="mb-5 text-center">
+						<img style="max-width:750px;max-height:250px;border:0;margin:0" src="img/aa.png">
+					</div>
+					<div class="scroll-container scroll-container-1">
+						<div class="scroll-content">
+							<ul class="menu-left">
+									<li class="nav-item"><a class="page-scroll" href="javascript:showSection('id0');">1</a> </li>
+									<li class="nav-item"><a class="page-scroll" href="javascript:showSection('id1');">2</a> </li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-9 ml-auto px-0">
+						<section class="hero" id="id0" style="display:">
+							<div class="container">
+								<div>
+									<h2 class="pt-5 lead_40">1</h2>
+									<p class="lead_20">
+										1
+									</p>
+								</div>
+							</div>
+						</section>
+						<section class="hero" id="id1" style="display:">
+							<div class="container">
+								<div>
+									<h2 class="pt-5 lead_40">2</h2>
+									<p class="lead_20">
+										2
+									</p>
+								</div>
+							</div>
+						</section>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</body>
+</html>
