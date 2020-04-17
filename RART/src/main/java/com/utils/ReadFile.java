@@ -32,7 +32,7 @@ public class ReadFile  {
 			String line = null;
 			
 			while ((line = bufferedReader.readLine()) != null) {
-				result.add(line);
+				result.add(line.trim());
 	        }
 			
 			bufferedReader.close();

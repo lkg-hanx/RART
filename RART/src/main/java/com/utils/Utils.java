@@ -1,6 +1,7 @@
 package com.utils;
 
 import java.io.File;
+import java.util.List;
 
 /**
  * 共通处理
@@ -23,6 +24,30 @@ public class Utils {
 		}
 		file.createNewFile();
 		
+	}
+	
+	/**
+	 * 读取所有文件路径
+	 * @param filepath
+	 * @param fileList
+	 * @throws Exception
+	 */
+	public static void readfile(String filepath, List<String> fileList) throws Exception {
+		
+		File file = new File(filepath);
+		 if (!file.isDirectory()) {
+			 fileList.add(file.getPath());
+		 }else {
+			 String[] filelist = file.list();
+			 for (int i = 0; i < filelist.length; i++) {
+				 File readfile = new File(filepath + "\\" + filelist[i]);
+				 if (!readfile.isDirectory()) {
+					 fileList.add(readfile.getPath());
+				 } else if (readfile.isDirectory()) {
+                         readfile(filepath + "\\" + filelist[i], fileList);
+                 }
+			 }
+		 }
 	}
 	
 	
