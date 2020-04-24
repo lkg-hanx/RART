@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.maven.RART.App;
-
 /**
  * 读文件
  * @param path 文件路径

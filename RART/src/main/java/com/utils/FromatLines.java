@@ -6,12 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-
-import com.maven.RART.App;
 
 public class FromatLines  {
-	private static final Logger log = Logger.getLogger(App.class); 
 
 	/**
 	 * 整形共通处理
