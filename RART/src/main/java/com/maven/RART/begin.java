@@ -56,16 +56,19 @@ public class begin {
 			// 同名資産checkMap
 			Map<String, String> checkMap = new HashMap<String, String>();
 
-			// 循环处理文件
+			// 循環処理ファイル
 			for (String path : fileList) {
 
+				// 無視桁数
 				int startNum = 0;
 				if (!StringUtils.isEmpty(prop.getProperty("format_start_num"))) {
 					startNum = Integer.parseInt(prop.getProperty("format_start_num"));
 				}
 
-				// 情报取得处理
+				// Cobol情報の取得処理
 				CobolDto cobolDto = CobolService.getCobolInfo(path, fileList, startNum);
+				
+				// 同名資産check
 				if (null == checkMap.get(cobolDto.getPgmName())) {
 					checkMap.put(cobolDto.getPgmName(), cobolDto.getPgmName());
 				} else {
@@ -89,15 +92,16 @@ public class begin {
 			Map<Object, Object> dataModel = new HashMap<Object, Object>();
 			dataModel.put("OutDto", dto);
 
-			// 静态页生成
+			
+			//静的なページの生成
 			WriterFreemarker.writerTop(dataModel);
 			WriterFreemarker.writerCobol(dataModel);
 			WriterFreemarker.writerCobolsIO(dataModel);
 			WriterFreemarker.writerCobolsCall(dataModel);
 
-			log.info("处理成功");
+			log.info("処理が成功した");
 		} catch (Exception e) {
-			log.error("处理失败");
+			log.error("処理に失敗しました");
 			e.printStackTrace();
 		}
 	}

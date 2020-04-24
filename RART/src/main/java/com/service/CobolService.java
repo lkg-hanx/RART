@@ -18,6 +18,14 @@ import com.utils.ReadFile;
 public class CobolService {
 	private static final Logger log = Logger.getLogger(CobolService.class);
 
+	/**
+	 * Cobol情報の取得処理
+	 * @param path  ファイルパス
+	 * @param fileList すべてのファイルパス
+	 * @param startNum 無視桁数
+	 * @return
+	 * @throws Exception
+	 */
 	public static CobolDto getCobolInfo(String path, List<String> fileList, int startNum) throws Exception {
 		CobolDto cobolDto = new CobolDto();
 
@@ -31,6 +39,7 @@ public class CobolService {
 		// 備考
 		cobolDto.setNotes("-");
 
+		//ファイルの内容取得
 		List<String> lines = ReadFile.read(path);
 		if (null == lines || lines.size() == 0) {
 			log.error("文件为空:" + path);
@@ -80,6 +89,8 @@ public class CobolService {
 
 		// ファイル入出力
 		cobolDto.setIoList(getCobolIOInfo(lines));
+		
+		// 呼び出し関係
 		List<CallDto> callList = getCobolCallInfo(lines, fileList, startNum);
 		if(null == callList || callList.size()==0) {
 			cobolDto.setCallPath("-");
@@ -90,6 +101,12 @@ public class CobolService {
 		return cobolDto;
 	}
 
+	/**
+	 * ファイル入出力情報の取得処理
+	 * @param lines 
+	 * @return
+	 * @throws Exception
+	 */
 	public static List<IODto> getCobolIOInfo(List<String> lines) throws Exception {
 
 		Map<String, IODto> map = new HashMap<String, IODto>();
@@ -179,9 +196,18 @@ public class CobolService {
 		return ioDtoList;
 	}
 
+	/**
+	 * 呼び出し関係取得
+	 * @param lines
+	 * @param fileList
+	 * @param startNum
+	 * @return
+	 * @throws Exception
+	 */
 	public static List<CallDto> getCobolCallInfo(List<String> lines, List<String> fileList, int startNum)
 			throws Exception {
 
+		// 階層1取得
 		List<String[]> callGroup = new ArrayList<String[]>();
 		for (String line : lines) {
 			String[] call = new String[10];
@@ -195,12 +221,12 @@ public class CobolService {
 			}
 		}
 
+		// 循環で、他の階層を取得
 		if (null != callGroup && callGroup.size() > 0) {
 			List<String[]> newCallGroup = updateCall(callGroup, fileList, startNum);
 			for(int i=0;i<10;i++) {
 						newCallGroup = updateCall(newCallGroup, fileList, startNum);
 			}
-			
 			List<CallDto> callList = new ArrayList<CallDto>();
 			for (String[] callInfo : newCallGroup) {
 				CallDto calDto = new CallDto();
@@ -246,6 +272,15 @@ public class CobolService {
 		return null;
 	}
 
+
+	/**
+	 * 循環で、階層を取得
+	 * @param callGroup 原階層
+	 * @param fileList すべてのファイルパス
+	 * @param startNum 無視桁数
+	 * @return
+	 * @throws Exception
+	 */
 	public static List<String[]> updateCall(List<String[]> callGroup, List<String> fileList, int startNum) throws Exception {
 		List<String[]> newCallGroup = new ArrayList<String[]>();
 		for (String[] group : callGroup) {

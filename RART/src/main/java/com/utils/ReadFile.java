@@ -8,15 +8,16 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-/**
- * 读文件
- * @param path 文件路径
- * @return result 文件内容
- */
+
 public class ReadFile  {
 	private static final Logger log = Logger.getLogger(ReadFile.class); 
 
-
+	/**
+	 *  ファイルの内容取得
+	 * @param path  ファイルパス
+	 * @return
+	 * @throws Exception
+	 */
 	public static List<String> read(String path) throws Exception {
 		FileInputStream fileInputStream = null;
 		BufferedReader bufferedReader = null;

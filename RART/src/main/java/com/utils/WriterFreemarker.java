@@ -22,8 +22,8 @@ public class WriterFreemarker {
 	private static final Logger log = Logger.getLogger(WriterFreemarker.class);
 	
 	/**
-	 * 静态页生成
-	 * @param dataModel 静态数据
+	 * トップページの生成
+	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
 	public static void writerTop(Map<Object, Object> dataModel) throws Exception {
@@ -35,32 +35,31 @@ public class WriterFreemarker {
 
 			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
 			if(StringUtils.isEmpty(ftl_path)) {
-				log.error("模板路径为空");
+				log.error("テンプレートのパスが空です");
 				return;
 			}
 			
 			String download_file = prop.getProperty("download_file");
 			if(StringUtils.isEmpty(download_file)) {
-				log.error("生成文件路径为空");
+				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
 			
 			
-			// 创建Configuration对象
+			// 作成Configurationオブジェクト
 			Configuration configuration = new Configuration(Configuration.getVersion());
-			// 设置模板文件所在的路径
+			// テンプレートファイルのパスを設定します。
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
-			// 设置模板文件使用的字符集
+			// テンプレートファイルで使用する文字セットを設定します。
 			configuration.setDefaultEncoding("utf-8");
-			// 加载模板
+			// テンプレートを読み込む
 			Template template = configuration.getTemplate("index.ftl");
 			
-			// 指定生成的文件名
+			// 生成したファイル名を指定します。
 			File file = new File(download_file+"/index.html");
 			Utils.createFile(file);
 			
 			out = new FileWriter(file);
-			// 调用模板对象的process方法输出文件。
 			template.process(dataModel, out);
 			out.close();
 			
@@ -78,7 +77,7 @@ public class WriterFreemarker {
 			
 			
 		} catch (Exception e) {
-			log.error("静态页生成失败");
+			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
 		} finally {
 			if (null != out) {
@@ -88,7 +87,11 @@ public class WriterFreemarker {
 	}
 	
 
-	
+	/**
+	 * Cobolページの生成
+	 * @param dataModel 静的データ
+	 * @throws Exception
+	 */
 	public static void writerCobol(Map<Object, Object> dataModel) throws Exception {
 		Writer out = null;
 		try {
@@ -98,37 +101,31 @@ public class WriterFreemarker {
 
 			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
 			if(StringUtils.isEmpty(ftl_path)) {
-				log.error("模板路径为空");
+				log.error("テンプレートのパスが空です");
 				return;
 			}
 			
 			String download_file = prop.getProperty("download_file");
 			if(StringUtils.isEmpty(download_file)) {
-				log.error("生成文件路径为空");
+				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
 			
 			
-			// 创建Configuration对象
 			Configuration configuration = new Configuration(Configuration.getVersion());
-			// 设置模板文件所在的路径
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
-			// 设置模板文件使用的字符集
 			configuration.setDefaultEncoding("utf-8");
-			// 加载模板
 			Template template = configuration.getTemplate("cobol.ftl");
 			
-			// 指定生成的文件名
 			File file = new File(download_file+"/cobol.html");
 			Utils.createFile(file);
 			
 			out = new FileWriter(file);
-			// 调用模板对象的process方法输出文件。
 			template.process(dataModel, out);
 			out.close();
 			
 		} catch (Exception e) {
-			log.error("静态页生成失败");
+			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
 		} finally {
 			if (null != out) {
@@ -137,6 +134,11 @@ public class WriterFreemarker {
 		}
 	}
 	
+	/**
+	 * Cobolファイル入出力ページの生成
+	 * @param dataModel 静的データ
+	 * @throws Exception
+	 */
 	public static void writerCobolsIO(Map<Object, Object> dataModel) throws Exception {
 		TopDto dto = (TopDto)dataModel.get("OutDto");
 		List<CobolDto> cobolList = dto.getCobolList();
@@ -145,6 +147,11 @@ public class WriterFreemarker {
 		}
 	}
 	
+	/**
+	 * Cobolファイル入出力ページの生成
+	 * @param dataModel 静的データ
+	 * @throws Exception
+	 */
 	public static void writerIO(CobolDto cobol) throws Exception {
 		Map<Object, Object> data = new HashMap<Object, Object>();
 		data.put("cobol", cobol);
@@ -156,37 +163,31 @@ public class WriterFreemarker {
 
 			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
 			if(StringUtils.isEmpty(ftl_path)) {
-				log.error("模板路径为空");
+				log.error("テンプレートのパスが空です");
 				return;
 			}
 			
 			String download_file = prop.getProperty("download_file");
 			if(StringUtils.isEmpty(download_file)) {
-				log.error("生成文件路径为空");
+				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
 			
 			
-			// 创建Configuration对象
 			Configuration configuration = new Configuration(Configuration.getVersion());
-			// 设置模板文件所在的路径
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
-			// 设置模板文件使用的字符集
 			configuration.setDefaultEncoding("utf-8");
-			// 加载模板
 			Template template = configuration.getTemplate("cobol_IO.ftl");
 			
-			// 指定生成的文件名
 			File file = new File(download_file+"/cobol"+"/"+cobol.getRaipiraiName()+"_"+cobol.getPgmName()+"_IO.html");
 			Utils.createFile(file);
 			
 			out = new FileWriter(file);
-			// 调用模板对象的process方法输出文件。
 			template.process(data, out);
 			out.close();
 			
 		} catch (Exception e) {
-			log.error("静态页生成失败");
+			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
 		} finally {
 			if (null != out) {
@@ -195,6 +196,11 @@ public class WriterFreemarker {
 		}
 	}
 	
+	/**
+	 * Cobol呼び出し関係ページの生成
+	 * @param dataModel 静的データ
+	 * @throws Exception
+	 */
 	public static void writerCobolsCall(Map<Object, Object> dataModel) throws Exception {
 		TopDto dto = (TopDto)dataModel.get("OutDto");
 		List<CobolDto> cobolList = dto.getCobolList();
@@ -204,6 +210,11 @@ public class WriterFreemarker {
 		}
 	}
 	
+	/**
+	 * Cobol呼び出し関係ページの生成
+	 * @param dataModel 静的データ
+	 * @throws Exception
+	 */
 	public static void writerCall(CobolDto cobol) throws Exception {
 		Map<Object, Object> data = new HashMap<Object, Object>();
 		data.put("cobol", cobol);
@@ -215,37 +226,31 @@ public class WriterFreemarker {
 
 			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
 			if(StringUtils.isEmpty(ftl_path)) {
-				log.error("模板路径为空");
+				log.error("テンプレートのパスが空です");
 				return;
 			}
 			
 			String download_file = prop.getProperty("download_file");
 			if(StringUtils.isEmpty(download_file)) {
-				log.error("生成文件路径为空");
+				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
 			
 			
-			// 创建Configuration对象
 			Configuration configuration = new Configuration(Configuration.getVersion());
-			// 设置模板文件所在的路径
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
-			// 设置模板文件使用的字符集
 			configuration.setDefaultEncoding("utf-8");
-			// 加载模板
 			Template template = configuration.getTemplate("cobol_CALL.ftl");
 			
-			// 指定生成的文件名
 			File file = new File(download_file+"/cobol"+"/"+cobol.getRaipiraiName()+"_"+cobol.getPgmName()+"_CALL.html");
 			Utils.createFile(file);
 			
 			out = new FileWriter(file);
-			// 调用模板对象的process方法输出文件。
 			template.process(data, out);
 			out.close();
 			
 		} catch (Exception e) {
-			log.error("静态页生成失败");
+			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
 		} finally {
 			if (null != out) {
