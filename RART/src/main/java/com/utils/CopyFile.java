@@ -8,15 +8,16 @@ import java.io.OutputStream;
 
 import org.apache.log4j.Logger;
 
-/**
- * 整形共通处理
- * 
- * @param path 文件路径
- * @return result 文件内容
- */
 public class CopyFile {
 	private static final Logger log = Logger.getLogger(CopyFile.class);
 
+	/**
+	 * ファイルをコピー
+	 * 
+	 * @param source
+	 * @param dest
+	 * @throws Exception
+	 */
 	public static void copy(File source, File dest) throws Exception {
 		InputStream input = null;
 		OutputStream output = null;
@@ -29,13 +30,13 @@ public class CopyFile {
 				output.write(buf, 0, bytesRead);
 			}
 		} catch (Exception e) {
-			log.error("COPY失败");
+			log.error("コピーに失敗しました");
 			e.printStackTrace();
 		} finally {
-			if(null != input) {
+			if (null != input) {
 				input.close();
 			}
-			if(null != output) {
+			if (null != output) {
 				output.close();
 			}
 		}

@@ -85,14 +85,46 @@
 								  <#list OutDto.cobolList as cobol>
 									  <tr>
 										<td class="td2 table_border">${cobol_index+1}</td>
-										<td class="td2 table_border">${cobol.pgmName}</td>
-										<td class="td2 table_border">${cobol.raipiraiName}</td>
-										<td class="td2 table_border">${cobol.sameName}</td>
-										<td class="td2 table_border">${cobol.ioPath}</td>
-										<td class="td2 table_border">${cobol.callPath}</td>
-										<td class="td2 table_border">${cobol.totalNum}</td>
-										<td class="td2 table_border">${cobol.validNum}</td>
-										<td class="td2 table_border">${cobol.notes}</td>
+										<td class="td2 table_border">
+										<#if cobol.pgmName??>
+											${cobol.pgmName}
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.raipiraiName??>
+											${cobol.raipiraiName}
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.sameName??>
+											${cobol.sameName}
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.ioPath??>
+											<a class="page-scroll" href="cobol\${cobol.raipiraiName}_${cobol.ioPath}">${cobol.ioPath}</a>
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.callPath??>
+											<a class="page-scroll" href="cobol\${cobol.raipiraiName}_${cobol.callPath}">${cobol.callPath}</a>
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.totalNum??>
+											${cobol.totalNum}
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.validNum??>
+											${cobol.validNum}
+										</#if>
+										</td>
+										<td class="td2 table_border">
+										<#if cobol.notes??>
+											${cobol.notes}
+										</#if>
+										</td>
 									  </tr>
 								  </#list>
 								</table>

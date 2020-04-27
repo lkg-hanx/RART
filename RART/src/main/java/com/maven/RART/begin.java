@@ -67,7 +67,7 @@ public class begin {
 
 				// Cobol情報の取得処理
 				CobolDto cobolDto = CobolService.getCobolInfo(path, fileList, startNum);
-				
+
 				// 同名資産check
 				if (null == checkMap.get(cobolDto.getPgmName())) {
 					checkMap.put(cobolDto.getPgmName(), cobolDto.getPgmName());
@@ -92,8 +92,7 @@ public class begin {
 			Map<Object, Object> dataModel = new HashMap<Object, Object>();
 			dataModel.put("OutDto", dto);
 
-			
-			//静的なページの生成
+			// 静的なページの生成
 			WriterFreemarker.writerTop(dataModel);
 			WriterFreemarker.writerCobol(dataModel);
 			WriterFreemarker.writerCobolsIO(dataModel);

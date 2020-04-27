@@ -61,8 +61,10 @@
 								<hr class="hr"/>
 								<h2 class="lead_20">[制限付権利の説明]</h2>
 								<p>
-									Lorem, ipsum dolor sit amet consectetur adipisicing elit. <a href="#">Totam</a> consequuntur deserunt nemo doloremque. 
-									Aut commodi quas amet? Rem <a href="#">voluptate</a> consectetur totam dolor dicta dolores.
+									本製品(ソフトウエアおよびドキュメントを含む)の使用、複製または開示は、Linkage株式会社との契約に記された制約条件に従うものとします。
+								</p>
+								<p>
+									本製品は、著作権、特許権およびその他の知的所有権に関する法律により保護されています。
 								</p>
 								<br/>
 								<h2 class="lead_20">[本書の記載内容について]</h2>

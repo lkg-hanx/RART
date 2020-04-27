@@ -20,7 +20,8 @@ public class CobolService {
 
 	/**
 	 * Cobol情報の取得処理
-	 * @param path  ファイルパス
+	 * 
+	 * @param path     ファイルパス
 	 * @param fileList すべてのファイルパス
 	 * @param startNum 無視桁数
 	 * @return
@@ -39,7 +40,7 @@ public class CobolService {
 		// 備考
 		cobolDto.setNotes("-");
 
-		//ファイルの内容取得
+		// ファイルの内容取得
 		List<String> lines = ReadFile.read(path);
 		if (null == lines || lines.size() == 0) {
 			log.error("文件为空:" + path);
@@ -71,16 +72,8 @@ public class CobolService {
 				if (("PROGRAM-ID.").equals(str)) {
 					if (i + 1 < split.length) {
 						cobolDto.setPgmName(split[i + 1].replace(".", ""));
-						cobolDto.setIoPath("<a class=\"page-scroll\" href=\"cobol\\" + cobolDto.getRaipiraiName() + "_"
-								+ split[i + 1].replace(".", "") + "_IO.html\">" + split[i + 1].replace(".", "")
-								+ "_IO.html</a>");
-						cobolDto.setCallPath("<a class=\"page-scroll\" href=\"cobol\\" + cobolDto.getRaipiraiName()
-								+ "_" + split[i + 1].replace(".", "") + "_CALL.html\">" + split[i + 1].replace(".", "")
-								+ "_CALL.html</a>");
-					} else {
-						cobolDto.setPgmName("-");
-						cobolDto.setIoPath("-");
-						cobolDto.setCallPath("-");
+						cobolDto.setIoPath(split[i + 1].replace(".", "") + "_IO.html");
+						cobolDto.setCallPath(split[i + 1].replace(".", "") + "_CALL.html");
 					}
 				}
 			}
@@ -89,12 +82,12 @@ public class CobolService {
 
 		// ファイル入出力
 		cobolDto.setIoList(getCobolIOInfo(lines));
-		
+
 		// 呼び出し関係
 		List<CallDto> callList = getCobolCallInfo(lines, fileList, startNum);
-		if(null == callList || callList.size()==0) {
+		if (null == callList || callList.size() == 0) {
 			cobolDto.setCallPath("-");
-		}else {
+		} else {
 			cobolDto.setCallList(callList);
 		}
 
@@ -103,7 +96,8 @@ public class CobolService {
 
 	/**
 	 * ファイル入出力情報の取得処理
-	 * @param lines 
+	 * 
+	 * @param lines
 	 * @return
 	 * @throws Exception
 	 */
@@ -198,6 +192,7 @@ public class CobolService {
 
 	/**
 	 * 呼び出し関係取得
+	 * 
 	 * @param lines
 	 * @param fileList
 	 * @param startNum
@@ -221,11 +216,11 @@ public class CobolService {
 			}
 		}
 
-		// 循環で、他の階層を取得
+		// で、他の階層を取得
 		if (null != callGroup && callGroup.size() > 0) {
 			List<String[]> newCallGroup = updateCall(callGroup, fileList, startNum);
-			for(int i=0;i<10;i++) {
-						newCallGroup = updateCall(newCallGroup, fileList, startNum);
+			for (int i = 0; i < 10; i++) {
+				newCallGroup = updateCall(newCallGroup, fileList, startNum);
 			}
 			List<CallDto> callList = new ArrayList<CallDto>();
 			for (String[] callInfo : newCallGroup) {
@@ -272,16 +267,17 @@ public class CobolService {
 		return null;
 	}
 
-
 	/**
 	 * 循環で、階層を取得
+	 * 
 	 * @param callGroup 原階層
-	 * @param fileList すべてのファイルパス
-	 * @param startNum 無視桁数
+	 * @param fileList  すべてのファイルパス
+	 * @param startNum  無視桁数
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<String[]> updateCall(List<String[]> callGroup, List<String> fileList, int startNum) throws Exception {
+	public static List<String[]> updateCall(List<String[]> callGroup, List<String> fileList, int startNum)
+			throws Exception {
 		List<String[]> newCallGroup = new ArrayList<String[]>();
 		for (String[] group : callGroup) {
 			for (int i = 0; i < group.length; i++) {
@@ -311,8 +307,8 @@ public class CobolService {
 						}
 					}
 					break;
-				} 
-				if(i+1 == group.length-1) {
+				}
+				if (i + 1 == group.length - 1) {
 					if (!StringUtils.isEmpty(group[i]) && !StringUtils.isEmpty(group[i + 1])) {
 						newCallGroup.add(group);
 					}
@@ -322,6 +318,5 @@ public class CobolService {
 		}
 		return newCallGroup;
 	}
-	
-	
+
 }

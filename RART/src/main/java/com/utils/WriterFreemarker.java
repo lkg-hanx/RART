@@ -20,32 +20,33 @@ import freemarker.template.Template;
 
 public class WriterFreemarker {
 	private static final Logger log = Logger.getLogger(WriterFreemarker.class);
-	
+ 
 	/**
 	 * トップページの生成
+	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
 	public static void writerTop(Map<Object, Object> dataModel) throws Exception {
 		Writer out = null;
 		try {
-			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties").openStream();
+			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties")
+					.openStream();
 			Properties prop = new Properties();
 			prop.load(in);
 
-			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
-			if(StringUtils.isEmpty(ftl_path)) {
+			String ftl_path = System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl";
+			if (StringUtils.isEmpty(ftl_path)) {
 				log.error("テンプレートのパスが空です");
 				return;
 			}
-			
+
 			String download_file = prop.getProperty("download_file");
-			if(StringUtils.isEmpty(download_file)) {
+			if (StringUtils.isEmpty(download_file)) {
 				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
-			
-			
+
 			// 作成Configurationオブジェクト
 			Configuration configuration = new Configuration(Configuration.getVersion());
 			// テンプレートファイルのパスを設定します。
@@ -54,28 +55,27 @@ public class WriterFreemarker {
 			configuration.setDefaultEncoding("utf-8");
 			// テンプレートを読み込む
 			Template template = configuration.getTemplate("index.ftl");
-			
+
 			// 生成したファイル名を指定します。
-			File file = new File(download_file+"/index.html");
+			File file = new File(download_file + "/index.html");
 			Utils.createFile(file);
-			
+
 			out = new FileWriter(file);
 			template.process(dataModel, out);
 			out.close();
-			
+
 			// css
-			File cssFile = new File(ftl_path+"/bootstrap.css");
-			File newCssFile = new File(download_file+"/css/bootstrap.css");
+			File cssFile = new File(ftl_path + "/bootstrap.css");
+			File newCssFile = new File(download_file + "/css/bootstrap.css");
 			Utils.createFile(newCssFile);
 			CopyFile.copy(cssFile, newCssFile);
-			
+
 			// img
-			File imgFile = new File(ftl_path+"/aa.png");
-			File newImgFile = new File(download_file+"/img/aa.png");
+			File imgFile = new File(ftl_path + "/aa.png");
+			File newImgFile = new File(download_file + "/img/aa.png");
 			Utils.createFile(newImgFile);
 			CopyFile.copy(imgFile, newImgFile);
-			
-			
+
 		} catch (Exception e) {
 			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
@@ -85,45 +85,45 @@ public class WriterFreemarker {
 			}
 		}
 	}
-	
 
 	/**
 	 * Cobolページの生成
+	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
 	public static void writerCobol(Map<Object, Object> dataModel) throws Exception {
 		Writer out = null;
 		try {
-			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties").openStream();
+			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties")
+					.openStream();
 			Properties prop = new Properties();
 			prop.load(in);
 
-			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
-			if(StringUtils.isEmpty(ftl_path)) {
+			String ftl_path = System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl";
+			if (StringUtils.isEmpty(ftl_path)) {
 				log.error("テンプレートのパスが空です");
 				return;
 			}
-			
+
 			String download_file = prop.getProperty("download_file");
-			if(StringUtils.isEmpty(download_file)) {
+			if (StringUtils.isEmpty(download_file)) {
 				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
-			
-			
+
 			Configuration configuration = new Configuration(Configuration.getVersion());
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
 			configuration.setDefaultEncoding("utf-8");
 			Template template = configuration.getTemplate("cobol.ftl");
-			
-			File file = new File(download_file+"/cobol.html");
+
+			File file = new File(download_file + "/cobol.html");
 			Utils.createFile(file);
-			
+
 			out = new FileWriter(file);
 			template.process(dataModel, out);
 			out.close();
-			
+
 		} catch (Exception e) {
 			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
@@ -133,22 +133,24 @@ public class WriterFreemarker {
 			}
 		}
 	}
-	
+
 	/**
 	 * Cobolファイル入出力ページの生成
+	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
 	public static void writerCobolsIO(Map<Object, Object> dataModel) throws Exception {
-		TopDto dto = (TopDto)dataModel.get("OutDto");
+		TopDto dto = (TopDto) dataModel.get("OutDto");
 		List<CobolDto> cobolList = dto.getCobolList();
-		for(CobolDto cobol : cobolList) {
+		for (CobolDto cobol : cobolList) {
 			writerIO(cobol);
 		}
 	}
-	
+
 	/**
 	 * Cobolファイル入出力ページの生成
+	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
@@ -157,35 +159,36 @@ public class WriterFreemarker {
 		data.put("cobol", cobol);
 		Writer out = null;
 		try {
-			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties").openStream();
+			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties")
+					.openStream();
 			Properties prop = new Properties();
 			prop.load(in);
 
-			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
-			if(StringUtils.isEmpty(ftl_path)) {
+			String ftl_path = System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl";
+			if (StringUtils.isEmpty(ftl_path)) {
 				log.error("テンプレートのパスが空です");
 				return;
 			}
-			
+
 			String download_file = prop.getProperty("download_file");
-			if(StringUtils.isEmpty(download_file)) {
+			if (StringUtils.isEmpty(download_file)) {
 				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
-			
-			
+
 			Configuration configuration = new Configuration(Configuration.getVersion());
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
 			configuration.setDefaultEncoding("utf-8");
 			Template template = configuration.getTemplate("cobol_IO.ftl");
-			
-			File file = new File(download_file+"/cobol"+"/"+cobol.getRaipiraiName()+"_"+cobol.getPgmName()+"_IO.html");
+
+			File file = new File(
+					download_file + "/cobol" + "/" + cobol.getRaipiraiName() + "_" + cobol.getPgmName() + "_IO.html");
 			Utils.createFile(file);
-			
+
 			out = new FileWriter(file);
 			template.process(data, out);
 			out.close();
-			
+
 		} catch (Exception e) {
 			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
@@ -195,23 +198,25 @@ public class WriterFreemarker {
 			}
 		}
 	}
-	
+
 	/**
 	 * Cobol呼び出し関係ページの生成
+	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
 	public static void writerCobolsCall(Map<Object, Object> dataModel) throws Exception {
-		TopDto dto = (TopDto)dataModel.get("OutDto");
+		TopDto dto = (TopDto) dataModel.get("OutDto");
 		List<CobolDto> cobolList = dto.getCobolList();
-		for(CobolDto cobol : cobolList) {
-			if(null != cobol.getCallList() && cobol.getCallList().size()>0)
-			writerCall(cobol);
+		for (CobolDto cobol : cobolList) {
+			if (null != cobol.getCallList() && cobol.getCallList().size() > 0)
+				writerCall(cobol);
 		}
 	}
-	
+
 	/**
 	 * Cobol呼び出し関係ページの生成
+	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
 	 */
@@ -220,35 +225,36 @@ public class WriterFreemarker {
 		data.put("cobol", cobol);
 		Writer out = null;
 		try {
-			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties").openStream();
+			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties")
+					.openStream();
 			Properties prop = new Properties();
 			prop.load(in);
 
-			String ftl_path=System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl"; 
-			if(StringUtils.isEmpty(ftl_path)) {
+			String ftl_path = System.getProperty("user.dir") + "/src/main/webapp/WEB-INF/ftl";
+			if (StringUtils.isEmpty(ftl_path)) {
 				log.error("テンプレートのパスが空です");
 				return;
 			}
-			
+
 			String download_file = prop.getProperty("download_file");
-			if(StringUtils.isEmpty(download_file)) {
+			if (StringUtils.isEmpty(download_file)) {
 				log.error("ファイルを生成するパスが空です。");
 				return;
 			}
-			
-			
+
 			Configuration configuration = new Configuration(Configuration.getVersion());
 			configuration.setDirectoryForTemplateLoading(new File(ftl_path));
 			configuration.setDefaultEncoding("utf-8");
 			Template template = configuration.getTemplate("cobol_CALL.ftl");
-			
-			File file = new File(download_file+"/cobol"+"/"+cobol.getRaipiraiName()+"_"+cobol.getPgmName()+"_CALL.html");
+
+			File file = new File(
+					download_file + "/cobol" + "/" + cobol.getRaipiraiName() + "_" + cobol.getPgmName() + "_CALL.html");
 			Utils.createFile(file);
-			
+
 			out = new FileWriter(file);
 			template.process(data, out);
 			out.close();
-			
+
 		} catch (Exception e) {
 			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
