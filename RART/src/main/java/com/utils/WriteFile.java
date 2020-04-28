@@ -15,7 +15,9 @@ public class WriteFile {
 	private static final Logger log = Logger.getLogger(WriteFile.class);
 
 	public static void write(String path, String content) throws Exception {
-
+		
+		log.info(" 整形後FILEを作成：" + path);
+		
 		FileOutputStream fileOutputStream = null;
 		try {
 			File file = new File(path);
@@ -32,7 +34,7 @@ public class WriteFile {
 			fileOutputStream.close();
 
 		} catch (Exception e) {
-			log.error("ファイルの作成に失敗しました");
+			log.error(" 整形後FILEの作成に失敗しました");
 			e.printStackTrace();
 		} finally {
 			if (null != fileOutputStream) {

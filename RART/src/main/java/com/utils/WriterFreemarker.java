@@ -75,10 +75,12 @@ public class WriterFreemarker {
 			File newImgFile = new File(download_file + "/img/aa.png");
 			Utils.createFile(newImgFile);
 			CopyFile.copy(imgFile, newImgFile);
-
+			
+			log.info("トップページの生成処理終了");
 		} catch (Exception e) {
 			log.error("静的なページの生成に失敗しました。");
 			e.printStackTrace();
+			throw e;
 		} finally {
 			if (null != out) {
 				out.close();
@@ -123,10 +125,12 @@ public class WriterFreemarker {
 			out = new FileWriter(file);
 			template.process(dataModel, out);
 			out.close();
-
+			
+			log.info("Cobolページの生成処理終了");
 		} catch (Exception e) {
-			log.error("静的なページの生成に失敗しました。");
+			log.error("Cobolページの生成に失敗しました。");
 			e.printStackTrace();
+			throw e;
 		} finally {
 			if (null != out) {
 				out.close();
@@ -148,6 +152,8 @@ public class WriterFreemarker {
 				writerIO(cobol);
 			}
 		}
+		
+		log.info("Cobolファイル入出力ページの生成処理終了");
 	}
 
 	/**
@@ -192,8 +198,9 @@ public class WriterFreemarker {
 			out.close();
 
 		} catch (Exception e) {
-			log.error("静的なページの生成に失敗しました。");
+			log.error("Cobolファイル入出力ページの生成失敗:" + cobol.getRaipiraiName()+"/"+cobol.getPgmName());
 			e.printStackTrace();
+			throw e;
 		} finally {
 			if (null != out) {
 				out.close();
@@ -215,6 +222,8 @@ public class WriterFreemarker {
 				writerCall(cobol);
 			}
 		}
+		
+		log.info("Cobol呼び出し関係ページの生成処理終了");
 	}
 
 	/**
@@ -259,8 +268,9 @@ public class WriterFreemarker {
 			out.close();
 
 		} catch (Exception e) {
-			log.error("静的なページの生成に失敗しました。");
+			log.error("Cobol呼び出し関係ページの生成失敗:" + cobol.getRaipiraiName()+"/"+cobol.getPgmName());
 			e.printStackTrace();
+			throw e;
 		} finally {
 			if (null != out) {
 				out.close();

@@ -31,6 +31,8 @@ public class begin {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		log.info("処理開始");
+		
 		try {
 
 			// プロファイル読みだし
@@ -61,6 +63,7 @@ public class begin {
 
 			// 循環処理ファイル
 			for (String path : fileList) {
+				log.info("Cobol情報解析:" + path);
 
 				// 無視桁数
 				int startNum = 0;
