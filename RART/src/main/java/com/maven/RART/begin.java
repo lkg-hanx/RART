@@ -15,7 +15,10 @@ import org.apache.log4j.Logger;
 import com.dto.CobolDto;
 import com.dto.TopDto;
 import com.service.CobolService;
+import com.utils.FromatLines;
+import com.utils.ReadFile;
 import com.utils.Utils;
+import com.utils.WriteFile;
 import com.utils.WriterFreemarker;
 
 public class begin {
@@ -66,8 +69,45 @@ public class begin {
 				}
 
 				// Cobol情報の取得処理
-				CobolDto cobolDto = CobolService.getCobolInfo(path, fileList, startNum);
+				CobolDto cobolDto = new CobolDto();
+				// ライプライ名
+				String[] paths = path.split("\\\\");
+				cobolDto.setRaipiraiName(paths[paths.length - 2]);
+				// ファイルの内容取得
+				List<String> lines = ReadFile.read(path);
+				if (null == lines || lines.size() == 0) {
+					log.error("ファイルが空:" + path);
+					cobolDto.setPgmName(paths[paths.length-1].substring(0, paths[paths.length-1].lastIndexOf(".")));
+					cobolList.add(cobolDto);
+					String formatPath = prop.getProperty("download_file") + "\\format\\" + cobolDto.getRaipiraiName() + "\\" +paths[paths.length-1];
+					WriteFile.write(formatPath, "");
+					continue;
+				}
 
+				// 総行数
+				cobolDto.setTotalNum(lines.size() + "");
+				// 有効行数
+				lines = FromatLines.delComment(lines, startNum);
+				cobolDto.setValidNum(lines.size() + "");
+				// 整形共通处理
+				lines = FromatLines.stopSignJoin(lines, startNum);
+				lines = FromatLines.spaceToTab(lines);
+
+				// 整形後FILE
+				String content = "";
+				for(String line:lines) {
+					if(StringUtils.isEmpty(content)) {
+						content = line;
+					}else {
+						content = content +"\n" + line;
+					}
+				}
+				String formatPath = prop.getProperty("download_file") + "\\format\\" + cobolDto.getRaipiraiName() + "\\" +paths[paths.length-1];
+				WriteFile.write(formatPath, content);
+				
+				// Cobol情報
+				CobolService.getCobolInfo(path, fileList, startNum, cobolDto, lines);
+				
 				// 同名資産check
 				if (null == checkMap.get(cobolDto.getPgmName())) {
 					checkMap.put(cobolDto.getPgmName(), cobolDto.getPgmName());
@@ -79,7 +119,7 @@ public class begin {
 
 				totalNum = totalNum + Integer.parseInt(cobolDto.getTotalNum());
 				validNum = validNum + Integer.parseInt(cobolDto.getValidNum());
-
+				
 			}
 
 			dto.setCobolList(cobolList);

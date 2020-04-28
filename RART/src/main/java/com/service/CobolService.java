@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import com.dto.CallDto;
 import com.dto.CobolDto;
@@ -16,7 +15,7 @@ import com.utils.FromatLines;
 import com.utils.ReadFile;
 
 public class CobolService {
-	private static final Logger log = Logger.getLogger(CobolService.class);
+
 
 	/**
 	 * Cobol情報の取得処理
@@ -24,45 +23,12 @@ public class CobolService {
 	 * @param path     ファイルパス
 	 * @param fileList すべてのファイルパス
 	 * @param startNum 無視桁数
-	 * @return
+	 * @param cobolDto
+	 * @param lines
 	 * @throws Exception
 	 */
-	public static CobolDto getCobolInfo(String path, List<String> fileList, int startNum) throws Exception {
-		CobolDto cobolDto = new CobolDto();
-
-		// ライプライ名
-		String[] paths = path.split("\\\\");
-		cobolDto.setRaipiraiName(paths[paths.length - 2]);
-
-		// 同名資産
-		cobolDto.setSameName("-");
-
-		// 備考
-		cobolDto.setNotes("-");
-
-		// ファイルの内容取得
-		List<String> lines = ReadFile.read(path);
-		if (null == lines || lines.size() == 0) {
-			log.error("文件为空:" + path);
-			cobolDto.setTotalNum("0");
-			cobolDto.setValidNum("0");
-			cobolDto.setPgmName("-");
-			cobolDto.setIoPath("-");
-			cobolDto.setCallPath("-");
-			cobolDto.setNotes("-");
-			return cobolDto;
-		}
-
-		// 総行数
-		cobolDto.setTotalNum(lines.size() + "");
-
-		// 有効行数
-		lines = FromatLines.delComment(lines, startNum);
-		cobolDto.setValidNum(lines.size() + "");
-
-		// 整形共通处理
-		lines = FromatLines.stopSignJoin(lines, startNum);
-		lines = FromatLines.spaceToTab(lines);
+	public static void getCobolInfo(String path, List<String> fileList, int startNum, CobolDto cobolDto, List<String> lines) throws Exception {
+		
 
 		// PGM名 ファイル入出力
 		for (String line : lines) {
@@ -72,8 +38,8 @@ public class CobolService {
 				if (("PROGRAM-ID.").equals(str)) {
 					if (i + 1 < split.length) {
 						cobolDto.setPgmName(split[i + 1].replace(".", ""));
-						cobolDto.setIoPath(split[i + 1].replace(".", "") + "_IO.html");
-						cobolDto.setCallPath(split[i + 1].replace(".", "") + "_CALL.html");
+						cobolDto.setIoPath(split[i + 1].replace(".", "") + "_IO");
+						cobolDto.setCallPath(split[i + 1].replace(".", "") + "_CALL");
 					}
 				}
 			}
@@ -85,13 +51,12 @@ public class CobolService {
 
 		// 呼び出し関係
 		List<CallDto> callList = getCobolCallInfo(lines, fileList, startNum);
-		if (null == callList || callList.size() == 0) {
-			cobolDto.setCallPath("-");
-		} else {
+		if (null != callList && callList.size() > 0) {
 			cobolDto.setCallList(callList);
+		}else {
+			cobolDto.setCallPath(null);
 		}
-
-		return cobolDto;
+		
 	}
 
 	/**
@@ -164,19 +129,21 @@ public class CobolService {
 			for (int i = 0; i < split.length; i++) {
 				String str = split[i];
 				if (("OPEN").equals(str)) {
-					if (null != map.get(split[i + 2])) {
-						filesName = split[i + 2];
-						if (("INPUT").equals(split[i + 1])) {
-							map.get(filesName).setIoType("I");
-						}
-						if (("OUTPUT").equals(split[i + 1])) {
-							map.get(filesName).setIoType("O");
-						}
-						if (("EXTEND").equals(split[i + 1])) {
-							map.get(filesName).setIoType("O");
-						}
-						if (("I-O").equals(split[i + 1])) {
-							map.get(filesName).setIoType("I-O");
+					for(int j = 2; j+i < split.length; j++) {
+						if (null != map.get(split[i + j].replace(".", ""))) {
+							filesName = split[i + j].replace(".", "");
+							if (("INPUT").equals(split[i + 1])) {
+								map.get(filesName).setIoType("I");
+							}
+							if (("OUTPUT").equals(split[i + 1])) {
+								map.get(filesName).setIoType("O");
+							}
+							if (("EXTEND").equals(split[i + 1])) {
+								map.get(filesName).setIoType("O");
+							}
+							if (("I-O").equals(split[i + 1])) {
+								map.get(filesName).setIoType("I-O");
+							}
 						}
 					}
 				}

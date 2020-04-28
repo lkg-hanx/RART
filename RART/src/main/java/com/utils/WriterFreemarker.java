@@ -144,7 +144,9 @@ public class WriterFreemarker {
 		TopDto dto = (TopDto) dataModel.get("OutDto");
 		List<CobolDto> cobolList = dto.getCobolList();
 		for (CobolDto cobol : cobolList) {
-			writerIO(cobol);
+			if(null != cobol.getIoList() && cobol.getIoList().size() > 0) {
+				writerIO(cobol);
+			}
 		}
 	}
 
@@ -182,7 +184,7 @@ public class WriterFreemarker {
 			Template template = configuration.getTemplate("cobol_IO.ftl");
 
 			File file = new File(
-					download_file + "/cobol" + "/" + cobol.getRaipiraiName() + "_" + cobol.getPgmName() + "_IO.html");
+					download_file + "/cobol" + "/" + cobol.getRaipiraiName()  + "/" + cobol.getRaipiraiName() + "_" + cobol.getPgmName() + "_IO.html");
 			Utils.createFile(file);
 
 			out = new FileWriter(file);
@@ -209,8 +211,9 @@ public class WriterFreemarker {
 		TopDto dto = (TopDto) dataModel.get("OutDto");
 		List<CobolDto> cobolList = dto.getCobolList();
 		for (CobolDto cobol : cobolList) {
-			if (null != cobol.getCallList() && cobol.getCallList().size() > 0)
+			if (null != cobol.getCallList() && cobol.getCallList().size() > 0) {
 				writerCall(cobol);
+			}
 		}
 	}
 
@@ -248,7 +251,7 @@ public class WriterFreemarker {
 			Template template = configuration.getTemplate("cobol_CALL.ftl");
 
 			File file = new File(
-					download_file + "/cobol" + "/" + cobol.getRaipiraiName() + "_" + cobol.getPgmName() + "_CALL.html");
+					download_file + "/cobol" + "/" + cobol.getRaipiraiName() + "/" + cobol.getRaipiraiName() + "_" + cobol.getPgmName() + "_CALL.html");
 			Utils.createFile(file);
 
 			out = new FileWriter(file);

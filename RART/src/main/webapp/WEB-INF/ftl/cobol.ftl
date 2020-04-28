@@ -10,7 +10,7 @@
 	<section class="hero p-0">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-3 bg-primary-dark py-5 text-center">
+				<div class="col-sm-3 bg-primary-dark py-5">
 					<div class="scroll-container scroll-container-1">
 						<div class="text-center">
 							<div class="mb-5">
@@ -21,32 +21,22 @@
 							</div>
 						</div>
 						<hr class="hr"/>
-						<div class="text-center">
-							<ul class="menu-left">
-								<li class=>
-									<a class="page-scroll" href="index.html">はじめにお読みくださ</a>
-								</li>
-							</ul>
+						<div class="menu-left">
+							<a class="page-scroll" href="index.html">はじめにお読みください</a>
 						</div>
 						<hr class="hr"/>
-						<div class="text-center">
-							<ul class="menu-left">
-								<li class=>
-									<a class="page-scroll" href="javascript:showSection('id1');">資産現状分析の情報一覧</a>
-								</li>
-							</ul>
+						<div class="menu-left">
+							<span>
+								資産現状分析の情報一覧
+							</span>
 						</div>
 						<hr class="hr"/>
 						<div class="scroll-content">
-							<div>
-								<ul class="menu-left">
-									<li class="nav-item">
-										<a class="page-scroll" href="cobol.html">COBOL情報一覧</a>
-									</li>
-									<li class="nav-item">
-										<a class="page-scroll" href="javascript:showSection('id2');">What we do</a>
-									</li>
-								</ul>
+							<div class="menu-left">
+								<a class="page-scroll" href="cobol.html">COBOL情報一覧</a>
+							</div>
+							<div class="menu-left">	
+								<a class="page-scroll" href="javascript:showSection('id2');">What we do</a>
 							</div>
 						</div>
 					</div>
@@ -58,69 +48,69 @@
 							<div>
 								<table class="table_border">
 								  <tr>
-									<td class="td2 table_border td_title">言語種别</td>
-									<td class="td2 table_border">COBOL</td>
-									<td class="td2 table_border td_title">ファイル件数</td>
-									<td class="td2 table_border">${OutDto.filesSize}</td>
-									<td class="td2 table_border td_title">総行数</td>
-									<td class="td2 table_border">${OutDto.totalNum}</td>
-									<td class="td2 table_border td_title">有効行数</td>
-									<td class="td2 table_border">${OutDto.validNum}</td>
+									<td class="td_100 table_border td_title">言語種别</td>
+									<td class="td_100 table_border">COBOL</td>
+									<td class="td_100 table_border td_title">FILE件数</td>
+									<td class="td_100 table_border">${OutDto.filesSize}</td>
+									<td class="td_100 table_border td_title">総行数</td>
+									<td class="td_100 table_border">${OutDto.totalNum}</td>
+									<td class="td_100 table_border td_title">有効行数</td>
+									<td class="td_100 table_border">${OutDto.validNum}</td>
 								  </tr>
 								</table>
 								<br/>
 								<br/>
 								<table id="cobol_page" class="table_border">
 								  <tr>
-									<th class="td2 table_border td_title">No</th>
-									<th class="td2 table_border td_title">PGM名</th>
-									<th class="td2 table_border td_title">ライプライ名</th>
-									<th class="td2 table_border td_title">同名資産</th>
-									<th class="td2 table_border td_title">ファイル入出力</th>
-									<th class="td2 table_border td_title">呼び出し関係</th>
-									<th class="td2 table_border td_title">総行数</th>
-									<th class="td2 table_border td_title">有効行数</th>
-									<th class="td2 table_border td_title">備考</th>
+									<td class="td_50 table_border td_title">No.</td>
+									<td class="td_100 table_border td_title">PGM名</td>
+									<td class="td_120 table_border td_title">ライプラリ名</td>
+									<td class="td_80 table_border td_title">同名資産</td>
+									<td class="td_100 table_border td_title">FILE入出力</td>
+									<td class="td_100 table_border td_title">呼び出し関係</td>
+									<td class="td_80 table_border td_title">総行数</td>
+									<td class="td_80 table_border td_title">有効行数</td>
+									<td class="td_150 table_border td_title">備考</td>
 								  </tr>
 								  <#list OutDto.cobolList as cobol>
 									  <tr>
-										<td class="td2 table_border">${cobol_index+1}</td>
-										<td class="td2 table_border">
+										<td class="td_50 table_border">${cobol_index+1}</td>
+										<td class="td_100 table_border">
 										<#if cobol.pgmName??>
 											${cobol.pgmName}
-										</#if>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_120 table_border">
 										<#if cobol.raipiraiName??>
 											${cobol.raipiraiName}
-										</#if>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_80 table_border">
 										<#if cobol.sameName??>
 											${cobol.sameName}
-										</#if>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_100 table_border">
 										<#if cobol.ioPath??>
-											<a class="page-scroll" href="cobol\${cobol.raipiraiName}_${cobol.ioPath}">${cobol.ioPath}</a>
-										</#if>
+											<a class="page-scroll" href="cobol\${cobol.raipiraiName}\${cobol.raipiraiName}_${cobol.ioPath}.html">${cobol.ioPath}</a>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_100 table_border">
 										<#if cobol.callPath??>
-											<a class="page-scroll" href="cobol\${cobol.raipiraiName}_${cobol.callPath}">${cobol.callPath}</a>
-										</#if>
+											<a class="page-scroll" href="cobol\${cobol.raipiraiName}\${cobol.raipiraiName}_${cobol.callPath}.html">${cobol.callPath}</a>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_80 table_border">
 										<#if cobol.totalNum??>
 											${cobol.totalNum}
-										</#if>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_80 table_border">
 										<#if cobol.validNum??>
 											${cobol.validNum}
-										</#if>
+										<#else>-</#if>
 										</td>
-										<td class="td2 table_border">
+										<td class="td_150 table_border">
 										<#if cobol.notes??>
 											${cobol.notes}
 										</#if>

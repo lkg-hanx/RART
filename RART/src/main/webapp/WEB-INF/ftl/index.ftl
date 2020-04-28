@@ -11,7 +11,7 @@
 	<section class="hero p-0">
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-sm-3 bg-primary-dark py-5 text-center">
+				<div class="col-sm-3 bg-primary-dark py-5">
 					<div class="scroll-container scroll-container-1">
 						<div class="text-center">
 							<div class="mb-5">
@@ -22,32 +22,22 @@
 							</div>
 						</div>
 						<hr class="hr"/>
-						<div class="text-center">
-							<ul class="menu-left">
-								<li class=>
-									<a class="page-scroll" href="index.html">はじめにお読みくださ</a>
-								</li>
-							</ul>
+						<div class="menu-left">
+							<a class="page-scroll" href="index.html">はじめにお読みください</a>
 						</div>
 						<hr class="hr"/>
-						<div class="text-center">
-							<ul class="menu-left">
-								<li class=>
-									<a class="page-scroll" href="javascript:showSection('id1');">資産現状分析の情報一覧</a>
-								</li>
-							</ul>
+						<div class="menu-left">
+							<span>
+								資産現状分析の情報一覧
+							</span>
 						</div>
 						<hr class="hr"/>
 						<div class="scroll-content">
-							<div>
-								<ul class="menu-left">
-									<li class="nav-item">
-										<a class="page-scroll" href="cobol.html">COBOL情報一覧</a>
-									</li>
-									<li class="nav-item">
-										<a class="page-scroll" href="javascript:showSection('id2');">What we do</a>
-									</li>
-								</ul>
+							<div class="menu-left">
+								<a class="page-scroll" href="cobol.html">COBOL情報一覧</a>
+							</div>
+							<div class="menu-left">	
+								<a class="page-scroll" href="javascript:showSection('id2');">What we do</a>
 							</div>
 						</div>
 					</div>
@@ -59,50 +49,50 @@
 							<div>
 								<h2 class="pt-5 lead_40 center">はじめに</h2>
 								<hr class="hr"/>
-								<h2 class="lead_20">[制限付権利の説明]</h2>
-								<p>
-									本製品(ソフトウエアおよびドキュメントを含む)の使用、複製または開示は、Linkage株式会社との契約に記された制約条件に従うものとします。
+								<h2>[制限付権利の説明]</h2>
+								<p class="lead_16">
+									本製品(ソフトウェアおよびドキュメントを含む)の使用、複製または開示は、Linkage株式会社との契約に記された制約条件に従うものとします。
 								</p>
-								<p>
+								<p class="lead_16">
 									本製品は、著作権、特許権およびその他の知的所有権に関する法律により保護されています。
 								</p>
 								<br/>
-								<h2 class="lead_20">[本書の記載内容について]</h2>
-								<p>
-									本書には、技術的誤りまたは誤種のあふ可能住があります。
+								<h2>[本書の記載内容について]</h2>
+								<p class="lead_16">
+									本書には、技術的な誤りまたは誤植のある可能性があります。
 								</p>
 								<br/>
 								<hr class="hr"/>
-								<h2 class="lead_20">[資産情報に図する]</h2>
+								<h2>[資産情報に関する]</h2>
 								<table>
 									<tr>
-										<td class="td1">ファイル件数：</td>
-										<td class="td1">${OutDto.filesSize}</td>
+										<td class="td_200 lead_16">FILE件数：</td>
+										<td class="td_200 lead_16">${OutDto.filesSize}</td>
 									</tr>
 									<tr>
-										<td class="td1">総行数：</td>
-										<td class="td1">${OutDto.totalNum}</td>
+										<td class="td_200 lead_16">総行数：</td>
+										<td class="td_200 lead_16">${OutDto.totalNum}</td>
 									</tr>
 									<tr>
-										<td class="td1">有効行数：</td>
-										<td class="td1">${OutDto.validNum}</td>
+										<td class="td_200 lead_16">有効行数：</td>
+										<td class="td_200 lead_16">${OutDto.validNum}</td>
 									</tr>
 								</table>
 								<br/>
 								<hr class="hr"/>
-								<h2 class="lead_20">[作成情報に図する]</h2>
+								<h2>[作成情報に関する]</h2>
 								<table>
 									<tr>
-			 							<td class="td1">バージョン：</td>
-										<td class="td1">RART_Ver0.1</td>
+			 							<td class="td_200 lead_16">バージョン：</td>
+										<td class="td_200 lead_16">RART_Ver0.1</td>
 									</tr>
 									<tr>
-										<td class="td1">作成時間：</td>
-										<td class="td1">${OutDto.systemTime}</td>
+										<td class="td_200 lead_16">作成時間：</td>
+										<td class="td_200 lead_16">${OutDto.systemTime}</td>
 									</tr>
 									<tr>
-										<td class="td1">作成者：</td>
-										<td class="td1">${OutDto.user}</td>
+										<td class="td_200 lead_16">作成者：</td>
+										<td class="td_200 lead_16">${OutDto.user}</td>
 									</tr>
 								</table>
 							</div>
