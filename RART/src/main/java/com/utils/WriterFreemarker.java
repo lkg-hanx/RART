@@ -153,7 +153,7 @@ public class WriterFreemarker {
 			}
 		}
 		
-		log.info("Cobolファイル入出力ページの生成処理終了");
+		log.info("Cobolファイル入出力ページの生成処理すべて終了");
 	}
 
 	/**
@@ -163,6 +163,8 @@ public class WriterFreemarker {
 	 * @throws Exception
 	 */
 	public static void writerIO(CobolDto cobol) throws Exception {
+		log.info("Cobolファイル入出力ページの生成:" + cobol.getRaipiraiName()+"/"+cobol.getPgmName());
+		
 		Map<Object, Object> data = new HashMap<Object, Object>();
 		data.put("cobol", cobol);
 		Writer out = null;
@@ -196,7 +198,7 @@ public class WriterFreemarker {
 			out = new FileWriter(file);
 			template.process(data, out);
 			out.close();
-
+			
 		} catch (Exception e) {
 			log.error("Cobolファイル入出力ページの生成失敗:" + cobol.getRaipiraiName()+"/"+cobol.getPgmName());
 			e.printStackTrace();
@@ -223,7 +225,7 @@ public class WriterFreemarker {
 			}
 		}
 		
-		log.info("Cobol呼び出し関係ページの生成処理終了");
+		log.info("Cobol呼び出し関係ページの生成処理すべて終了");
 	}
 
 	/**
@@ -233,6 +235,8 @@ public class WriterFreemarker {
 	 * @throws Exception
 	 */
 	public static void writerCall(CobolDto cobol) throws Exception {
+		log.info("Cobol呼び出し関係ページの生成:" + cobol.getRaipiraiName()+"/"+cobol.getPgmName());
+		
 		Map<Object, Object> data = new HashMap<Object, Object>();
 		data.put("cobol", cobol);
 		Writer out = null;
