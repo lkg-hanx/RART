@@ -51,11 +51,11 @@
 									<td class="td_100 table_border td_title">言語種别</td>
 									<td class="td_100 table_border">COBOL</td>
 									<td class="td_100 table_border td_title">FILE件数</td>
-									<td class="td_100 table_border">${OutDto.filesSize}</td>
+									<td class="td_100 table_border">${OutDto.cobolFilesSize}</td>
 									<td class="td_100 table_border td_title">総行数</td>
-									<td class="td_100 table_border">${OutDto.totalNum}</td>
+									<td class="td_100 table_border">${OutDto.cobolTotalNum}</td>
 									<td class="td_100 table_border td_title">有効行数</td>
-									<td class="td_100 table_border">${OutDto.validNum}</td>
+									<td class="td_100 table_border">${OutDto.cobolValidNum}</td>
 								  </tr>
 								</table>
 								<br/>
@@ -121,10 +121,10 @@
 								<br/>
 								<div class="center">
 									
-									<#if OutDto.filesSize?number / 5000 gt 1 >
+									<#if OutDto.filesSize?number / 100 gt 1 >
 										<#assign pageNum=1>
 										<#list OutDto.cobolList as cobol>
-											<#if cobol_index % 5000 == 0>
+											<#if cobol_index % 100 == 0>
 												<a href="javascript:showTr('${pageNum}');">${pageNum}</a>
 												<#assign pageNum=pageNum + 1>
 											</#if>
@@ -143,7 +143,7 @@
 <script>
 	var theTable = document.getElementById("cobol_page");
 	var numberRowsInTable = theTable.rows.length;   
-	var pageSize=5000;
+	var pageSize=100;
 	
 	window.onload=function(){
 		if(numberRowsInTable>pageSize){

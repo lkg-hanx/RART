@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import com.dto.CallDto;
 import com.dto.CobolDto;
 import com.dto.IODto;
-import com.utils.FromatLines;
+import com.utils.FromatCobolLines;
 import com.utils.ReadFile;
 
 public class CobolService {
@@ -291,7 +291,7 @@ public class CobolService {
 						if (group[i].equals(fileName)) {
 							boolean noHaveFlag = true;
 							List<String> lines = ReadFile.read(filePath);
-							lines = FromatLines.format(lines, startNum);
+							lines = FromatCobolLines.format(lines, startNum);
 							for (String line : lines) {
 								String[] split = line.split("\\t");
 								for (int j = 0; j < split.length; j++) {

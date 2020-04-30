@@ -50,7 +50,7 @@
 								  <tr>
 									<td class="td_100 table_border td_title">PGM名</td>
 									<td class="td_100 table_border">${cobol.pgmName}</td>
-									<td class="td_100 table_border td_title">ライプラリ名</td>
+									<td class="td_100 table_border td_title">ライブラリ名</td>
 									<td class="td_100 table_border">${cobol.raipiraiName}</td>
 								  </tr>
 								</table>

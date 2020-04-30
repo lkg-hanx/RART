@@ -7,10 +7,10 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
-public class FromatLines {
+public class FromatCobolLines {
 
 	/**
-	 * 整形共通処理
+	 * Cobol整形共通処理
 	 * 
 	 * @param lines
 	 * @return

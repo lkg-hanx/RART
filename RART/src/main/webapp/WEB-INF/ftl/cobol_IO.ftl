@@ -51,7 +51,7 @@
 									<td class="td_100 table_border td_title">PGM名</td>
 									<td class="td_100 table_border">
 									<#if cobol.pgmName??>${cobol.pgmName}<#else>-</#if></td>
-									<td class="td_100 table_border td_title">ライプラリ名</td>
+									<td class="td_100 table_border td_title">ライブラリ名</td>
 									<td class="td_100 table_border">${cobol.raipiraiName}</td>
 								  </tr>
 								</table>
@@ -61,9 +61,9 @@
 								  <tr>
 									<td class="td_50 table_border td_title">No.</td>
 									<td class="td_100 table_border td_title">ファイル名</td>
-									<td class="td_100 table_border td_title">種别名</td>
+									<td class="td_100 table_border td_title">ファイル識別名</td>
 									<td class="td_100 table_border td_title">レコードキー</td>
-									<td class="td_150 table_border td_title">データレコードキー</td>
+									<td class="td_120 table_border td_title">データレコード</td>
 									<td class="td_80 table_border td_title">入出力(I/O)</td>
 									<td class="td_120 table_border td_title">アクセスモード</td>
 									<td class="td_150 table_border td_title">備考</td>
