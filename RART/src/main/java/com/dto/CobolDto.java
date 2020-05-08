@@ -20,11 +20,11 @@ public class CobolDto  {
 	
 	// ファイル入出力
 	private String ioPath;
-	private List<IODto> ioList;
+	private List<CobolIODto> ioList;
 	
 	// 呼び出し関係
 	private String callPath;
-	private List<CallDto> callList;
+	private List<CobolCallDto> callList;
 	
 	// 総行数
 	private String totalNum;
@@ -62,10 +62,10 @@ public class CobolDto  {
 	public void setIoPath(String ioPath) {
 		this.ioPath = ioPath;
 	}
-	public List<IODto> getIoList() {
+	public List<CobolIODto> getIoList() {
 		return ioList;
 	}
-	public void setIoList(List<IODto> ioList) {
+	public void setIoList(List<CobolIODto> ioList) {
 		this.ioList = ioList;
 	}
 	
@@ -75,10 +75,10 @@ public class CobolDto  {
 	public void setCallPath(String callPath) {
 		this.callPath = callPath;
 	}
-	public List<CallDto> getCallList() {
+	public List<CobolCallDto> getCallList() {
 		return callList;
 	}
-	public void setCallList(List<CallDto> callList) {
+	public void setCallList(List<CobolCallDto> callList) {
 		this.callList = callList;
 	}
 	

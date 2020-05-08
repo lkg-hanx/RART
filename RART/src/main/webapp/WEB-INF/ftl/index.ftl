@@ -37,7 +37,7 @@
 								<a class="page-scroll" href="cobol.html">COBOL情報一覧</a>
 							</div>
 							<div class="menu-left">	
-								<a class="page-scroll" href="javascript:showSection('id2');">What we do</a>
+								<a class="page-scroll" href="jcl.html">JCL情報一覧</a>
 							</div>
 						</div>
 					</div>

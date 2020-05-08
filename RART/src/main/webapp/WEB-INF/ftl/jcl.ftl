@@ -51,11 +51,11 @@
 									<td class="td_100 table_border td_title">言語種别</td>
 									<td class="td_100 table_border">JCL</td>
 									<td class="td_100 table_border td_title">FILE件数</td>
-									<td class="td_100 table_border">${OutDto.filesSize}</td>
+									<td class="td_100 table_border">${OutDto.jclFilesSize}</td>
 									<td class="td_100 table_border td_title">総行数</td>
-									<td class="td_100 table_border">${OutDto.totalNum}</td>
+									<td class="td_100 table_border">${OutDto.jclTotalNum}</td>
 									<td class="td_100 table_border td_title">有効行数</td>
-									<td class="td_100 table_border">${OutDto.validNum}</td>
+									<td class="td_100 table_border">${OutDto.jclValidNum}</td>
 								  </tr>
 								</table>
 								<br/>
@@ -72,47 +72,47 @@
 									<td class="td_80 table_border td_title">有効行数</td>
 									<td class="td_150 table_border td_title">備考</td>
 								  </tr>
-								  <#list OutDto.cobolList as cobol>
+								  <#list OutDto.jclList as jcl>
 									  <tr>
-										<td class="td_50 table_border">${cobol_index+1}</td>
+										<td class="td_50 table_border">${jcl_index+1}</td>
 										<td class="td_100 table_border">
-										<#if cobol.pgmName??>
-											${cobol.pgmName}
+										<#if jcl.pgmName??>
+											${jcl.pgmName}
 										<#else>-</#if>
 										</td>
 										<td class="td_120 table_border">
-										<#if cobol.raipiraiName??>
-											${cobol.raipiraiName}
+										<#if jcl.raipiraiName??>
+											${jcl.raipiraiName}
 										<#else>-</#if>
 										</td>
 										<td class="td_80 table_border">
-										<#if cobol.sameName??>
-											${cobol.sameName}
+										<#if jcl.sameName??>
+											${jcl.sameName}
 										<#else>-</#if>
 										</td>
 										<td class="td_100 table_border">
-										<#if cobol.ioPath??>
-											<a class="page-scroll" href="cobol\${cobol.raipiraiName}\${cobol.raipiraiName}_${cobol.ioPath}.html">${cobol.ioPath}</a>
+										<#if jcl.ioPath??>
+											<a class="page-scroll" href="jcl\${jcl.raipiraiName}\${jcl.raipiraiName}_${jcl.ioPath}.html">${jcl.ioPath}</a>
 										<#else>-</#if>
 										</td>
 										<td class="td_100 table_border">
-										<#if cobol.callPath??>
-											<a class="page-scroll" href="cobol\${cobol.raipiraiName}\${cobol.raipiraiName}_${cobol.callPath}.html">${cobol.callPath}</a>
+										<#if jcl.callPath??>
+											<a class="page-scroll" href="jcl\${jcl.raipiraiName}\${jcl.raipiraiName}_${jcl.callPath}.html">${jcl.callPath}</a>
 										<#else>-</#if>
 										</td>
 										<td class="td_80 table_border">
-										<#if cobol.totalNum??>
-											${cobol.totalNum}
+										<#if jcl.totalNum??>
+											${jcl.totalNum}
 										<#else>-</#if>
 										</td>
 										<td class="td_80 table_border">
-										<#if cobol.validNum??>
-											${cobol.validNum}
+										<#if jcl.validNum??>
+											${jcl.validNum}
 										<#else>-</#if>
 										</td>
 										<td class="td_150 table_border">
-										<#if cobol.notes??>
-											${cobol.notes}
+										<#if jcl.notes??>
+											${jcl.notes}
 										</#if>
 										</td>
 									  </tr>
@@ -121,10 +121,10 @@
 								<br/>
 								<div class="center">
 									
-									<#if OutDto.filesSize?number / 5000 gt 1 >
+									<#if OutDto.jclFilesSize?number / 5000 gt 1 >
 										<#assign pageNum=1>
-										<#list OutDto.cobolList as cobol>
-											<#if cobol_index % 5000 == 0>
+										<#list OutDto.jclList as jcl>
+											<#if jcl_index % 5000 == 0>
 												<a href="javascript:showTr('${pageNum}');">${pageNum}</a>
 												<#assign pageNum=pageNum + 1>
 											</#if>

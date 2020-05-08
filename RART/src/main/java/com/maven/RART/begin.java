@@ -16,12 +16,14 @@ import com.dto.CobolDto;
 import com.dto.JclDto;
 import com.dto.TopDto;
 import com.service.CobolService;
+import com.service.JclService;
 import com.utils.FromatCobolLines;
 import com.utils.FromatJclLines;
+import com.utils.JclWriterFreemarker;
 import com.utils.ReadFile;
 import com.utils.Utils;
 import com.utils.WriteFile;
-import com.utils.WriterFreemarker;
+import com.utils.CobolWriterFreemarker;
 
 public class begin {
 
@@ -38,7 +40,7 @@ public class begin {
 		try {
 
 			// プロファイル読みだし
-			InputStream in = WriterFreemarker.class.getClassLoader().getResource("resources/param.properties")
+			InputStream in = CobolWriterFreemarker.class.getClassLoader().getResource("resources/param.properties")
 					.openStream();
 			Properties prop = new Properties();
 			prop.load(in);
@@ -90,11 +92,16 @@ public class begin {
 			// 静的なページの生成
 			Map<Object, Object> dataModel = new HashMap<Object, Object>();
 			dataModel.put("OutDto", dto);
-			WriterFreemarker.writerTop(dataModel);
+			CobolWriterFreemarker.writerTop(dataModel);
 			if(null != dto.getCobolList() && dto.getCobolList().size() > 0) {
-				WriterFreemarker.writerCobol(dataModel);
-				WriterFreemarker.writerCobolsIO(dataModel);
-				WriterFreemarker.writerCobolsCall(dataModel);
+				CobolWriterFreemarker.writerCobol(dataModel);
+				CobolWriterFreemarker.writerCobolsIO(dataModel);
+				CobolWriterFreemarker.writerCobolsCall(dataModel);
+			}
+			if(null != dto.getJclList() && dto.getJclList().size() > 0) {
+				JclWriterFreemarker.writerJcl(dataModel);
+				JclWriterFreemarker.writerJclsIO(dataModel);
+				JclWriterFreemarker.writerJclsCall(dataModel);
 			}
 
 			log.info("処理が成功した");
@@ -133,11 +140,11 @@ public class begin {
 			// ライプライ名
 			String[] paths = path.split("\\\\");
 			cobolDto.setRaipiraiName(paths[paths.length - 2]);
+			cobolDto.setPgmName(paths[paths.length - 1].substring(0, paths[paths.length - 1].lastIndexOf(".")));
 			// ファイルの内容取得
 			List<String> lines = ReadFile.read(path);
 			if (null == lines || lines.size() == 0) {
 				log.error("ファイルが空:" + path);
-				cobolDto.setPgmName(paths[paths.length - 1].substring(0, paths[paths.length - 1].lastIndexOf(".")));
 				cobolList.add(cobolDto);
 				String formatPath = prop.getProperty("download_file") + "\\format\\" + cobolDto.getRaipiraiName() + "\\"
 						+ paths[paths.length - 1];
@@ -219,6 +226,7 @@ public class begin {
 			// ライプライ名
 			String[] paths = path.split("\\\\");
 			jclDto.setRaipiraiName(paths[paths.length - 2]);
+			
 			// ファイルの内容取得
 			List<String> lines = ReadFile.read(path);
 			if (null == lines || lines.size() == 0) {
@@ -252,24 +260,26 @@ public class begin {
 			String formatPath = prop.getProperty("download_file") + "\\format\\" + jclDto.getRaipiraiName() + "\\"
 					+ paths[paths.length - 1];
 			WriteFile.write(formatPath, content);
+			
+			// Jcl情報
+			JclService.getJclInfo(path, fileList, startNum, jclDto, lines);
+
+			// 同名資産check
+			if (null == checkMap.get(jclDto.getPgmName())) {
+				checkMap.put(jclDto.getPgmName(), jclDto.getPgmName());
+			} else {
+				jclDto.setSameName("〇");
+			}
 
 			totalNum = totalNum + Integer.parseInt(jclDto.getTotalNum());
 			validNum = validNum + Integer.parseInt(jclDto.getValidNum());
 
+			jclList.add(jclDto);
 		}
 
 		dto.setJclList(jclList);
 		dto.setJclTotalNum(totalNum + "");
 		dto.setJclValidNum(validNum + "");
-
-		Map<Object, Object> dataModel = new HashMap<Object, Object>();
-		dataModel.put("OutDto", dto);
-
-		// 静的なページの生成
-//		WriterFreemarker.writerTop(dataModel);
-//		WriterFreemarker.writerCobol(dataModel);
-//		WriterFreemarker.writerCobolsIO(dataModel);
-//		WriterFreemarker.writerCobolsCall(dataModel);
 
 	}
 }

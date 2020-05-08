@@ -9,9 +9,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
-import com.dto.CallDto;
+import com.dto.CobolCallDto;
 import com.dto.CobolDto;
-import com.dto.IODto;
+import com.dto.CobolIODto;
 import com.utils.FromatCobolLines;
 import com.utils.ReadFile;
 
@@ -51,7 +51,7 @@ public class CobolService {
 		cobolDto.setIoList(getCobolIOInfo(lines, cobolDto));
 
 		// 呼び出し関係
-		List<CallDto> callList = getCobolCallInfo(lines, fileList, startNum, cobolDto);
+		List<CobolCallDto> callList = getCobolCallInfo(lines, fileList, startNum, cobolDto);
 		if (null != callList && callList.size() > 0) {
 			cobolDto.setCallList(callList);
 		} else {
@@ -68,17 +68,17 @@ public class CobolService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<IODto> getCobolIOInfo(List<String> lines, CobolDto cobolDto) throws Exception {
+	public static List<CobolIODto> getCobolIOInfo(List<String> lines, CobolDto cobolDto) throws Exception {
 		log.info("Cobol入出力情報解析:" + cobolDto.getPgmName());
 
-		Map<String, IODto> map = new HashMap<String, IODto>();
+		Map<String, CobolIODto> map = new HashMap<String, CobolIODto>();
 		int lineNum = 0;
 
 		try {
 			for (int num = 0; num < lines.size(); num++) {
 				lineNum = num + 1;
 				String line = lines.get(num);
-				IODto ioDto = new IODto();
+				CobolIODto ioDto = new CobolIODto();
 				String[] split = line.split("\\t");
 				for (int i = 0; i < split.length; i++) {
 					String str = split[i];
@@ -179,8 +179,8 @@ public class CobolService {
 			throw e;
 		}
 
-		List<IODto> ioDtoList = new ArrayList<IODto>();
-		for (IODto value : map.values()) {
+		List<CobolIODto> ioDtoList = new ArrayList<CobolIODto>();
+		for (CobolIODto value : map.values()) {
 			ioDtoList.add(value);
 		}
 		return ioDtoList;
@@ -196,7 +196,7 @@ public class CobolService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<CallDto> getCobolCallInfo(List<String> lines, List<String> fileList, int startNum,
+	public static List<CobolCallDto> getCobolCallInfo(List<String> lines, List<String> fileList, int startNum,
 			CobolDto cobolDto) throws Exception {
 		log.info("Cobol呼び出し関係情報解析:" + cobolDto.getPgmName());
 		try {
@@ -220,9 +220,9 @@ public class CobolService {
 				for (int i = 0; i < 10; i++) {
 					newCallGroup = updateCall(newCallGroup, fileList, startNum);
 				}
-				List<CallDto> callList = new ArrayList<CallDto>();
+				List<CobolCallDto> callList = new ArrayList<CobolCallDto>();
 				for (String[] callInfo : newCallGroup) {
-					CallDto calDto = new CallDto();
+					CobolCallDto calDto = new CobolCallDto();
 					for (int i = 0; i < callInfo.length; i++) {
 						if (!StringUtils.isEmpty(callInfo[i])) {
 							if (i == 0) {

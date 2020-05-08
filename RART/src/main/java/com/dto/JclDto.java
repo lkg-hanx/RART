@@ -12,7 +12,7 @@ public class JclDto  {
 	// PGM名
 	private String pgmName;
 	
-	// ライプライ名
+	// ライプラリ名
 	private String raipiraiName;
 	
 	// 同名資産
@@ -20,11 +20,11 @@ public class JclDto  {
 	
 	// ファイル入出力
 	private String ioPath;
-	private List<IODto> ioList;
+	private List<JclIOsDto> iosList;
 	
 	// 呼び出し関係
 	private String callPath;
-	private List<CallDto> callList;
+	private List<JclCallDto> callList;
 	
 	// 総行数
 	private String totalNum;
@@ -62,11 +62,11 @@ public class JclDto  {
 	public void setIoPath(String ioPath) {
 		this.ioPath = ioPath;
 	}
-	public List<IODto> getIoList() {
-		return ioList;
+	public List<JclIOsDto> getIosList() {
+		return iosList;
 	}
-	public void setIoList(List<IODto> ioList) {
-		this.ioList = ioList;
+	public void setIosList(List<JclIOsDto> iosList) {
+		this.iosList = iosList;
 	}
 	
 	public String getCallPath() {
@@ -75,10 +75,10 @@ public class JclDto  {
 	public void setCallPath(String callPath) {
 		this.callPath = callPath;
 	}
-	public List<CallDto> getCallList() {
+	public List<JclCallDto> getCallList() {
 		return callList;
 	}
-	public void setCallList(List<CallDto> callList) {
+	public void setCallList(List<JclCallDto> callList) {
 		this.callList = callList;
 	}
 	

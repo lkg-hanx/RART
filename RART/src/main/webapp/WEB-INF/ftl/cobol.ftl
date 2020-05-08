@@ -36,7 +36,7 @@
 								<a class="page-scroll" href="cobol.html">COBOL情報一覧</a>
 							</div>
 							<div class="menu-left">	
-								<a class="page-scroll" href="javascript:showSection('id2');">What we do</a>
+								<a class="page-scroll" href="jcl.html">JCL情報一覧</a>
 							</div>
 						</div>
 					</div>
@@ -121,7 +121,7 @@
 								<br/>
 								<div class="center">
 									
-									<#if OutDto.filesSize?number / 100 gt 1 >
+									<#if OutDto.cobolFilesSize?number / 100 gt 1 >
 										<#assign pageNum=1>
 										<#list OutDto.cobolList as cobol>
 											<#if cobol_index % 100 == 0>

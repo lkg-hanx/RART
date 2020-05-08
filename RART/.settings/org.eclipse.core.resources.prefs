@@ -3,6 +3,7 @@ encoding//src/main/java=UTF-8
 encoding//src/main/java/log4j.properties=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/param.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/ftl/jcl_IO.ftl=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding/<project>=UTF-8
