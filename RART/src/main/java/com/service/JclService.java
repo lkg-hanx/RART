@@ -1,5 +1,6 @@
 package com.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,10 +9,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.dto.CobolDto;
+import com.dto.CobolIODto;
 import com.dto.JclCallDto;
 import com.dto.JclDto;
 import com.dto.JclIODto;
 import com.dto.JclIOsDto;
+import com.utils.FromatCobolLines;
+import com.utils.ReadFile;
 import com.utils.Utils;
 
 public class JclService {
@@ -20,15 +25,15 @@ public class JclService {
 	/**
 	 * Jcl情報の取得処理
 	 * 
-	 * @param path     ファイルパス
-	 * @param fileList すべてのファイルパス
-	 * @param startNum 無視桁数
+	 * @param path          ファイルパス
+	 * @param cobolFileList すべてのファイルパス
+	 * @param startNum      無視桁数
 	 * @param cobolDto
 	 * @param lines
 	 * @throws Exception
 	 */
-	public static void getJclInfo(String path, List<String> fileList, int startNum, JclDto jclDto, List<String> lines)
-			throws Exception {
+	public static void getJclInfo(String path, List<String> cobolFileList, int startNum, JclDto jclDto,
+			List<String> lines) throws Exception {
 
 		// PGM名 ファイル入出力
 		for (String line : lines) {
@@ -37,7 +42,6 @@ public class JclService {
 				String str = split[i];
 				if (("JOB").equals(str)) {
 					if (i + 1 < split.length) {
-						jclDto.setPgmName(split[i + 1].replace(".", ""));
 						jclDto.setIoPath(split[i + 1].replace(".", "") + "_IO");
 						jclDto.setCallPath(split[i + 1].replace(".", "") + "_CALL");
 					}
@@ -47,7 +51,7 @@ public class JclService {
 		}
 
 		// 呼び出し関係
-		List<JclCallDto> callList = getJclCallInfo(lines, fileList, startNum, jclDto);
+		List<JclCallDto> callList = getJclCallInfo(lines, startNum, jclDto);
 		if (null != callList && callList.size() > 0) {
 			jclDto.setCallList(callList);
 		} else {
@@ -55,13 +59,96 @@ public class JclService {
 		}
 
 		// ファイル入出力
-		jclDto.setIosList(getJclIOInfo(lines, jclDto));
+		List<JclIOsDto> iosList = getJclIOInfo(lines, jclDto);
+		for (JclIOsDto iosDto : iosList) {
+			try {
+				if (!StringUtils.isEmpty(iosDto.getSteveName())) {
+					boolean existFlag = false;
+					for (String cobolPath : cobolFileList) {
+						// Cobol情報の取得
+						File file = new File(cobolPath);
+						String fileName = file.getName().substring(0, file.getName().indexOf("."));
+						if (iosDto.getSteveName().equals(fileName)) {
+							existFlag = true;
+							CobolDto cobolDto = new CobolDto();
+							String[] paths = cobolPath.split("\\\\");
+							cobolDto.setRaipiraiName(paths[paths.length - 2]);
+							cobolDto.setPgmName(
+									paths[paths.length - 1].substring(0, paths[paths.length - 1].lastIndexOf(".")));
+
+							List<String> cobolLines = ReadFile.read(cobolPath);
+							if (null != cobolLines && cobolLines.size() > 0) {
+								cobolLines = FromatCobolLines.format(cobolLines, 6);
+								Map<String, CobolIODto> map = CobolService.getCobolIOInfo(cobolLines, cobolDto);
+
+								// Cobol情報からJcl呼び出し関係を取得
+								if (null != iosDto.getIoList() && iosDto.getIoList().size() > 0) {
+									for (JclIODto ioDto : iosDto.getIoList()) {
+										if (!StringUtils.isEmpty(ioDto.getFilesName())) {
+											CobolIODto cobolIODto = map.get(ioDto.getFilesName());
+											if (null != cobolIODto && !StringUtils.isEmpty(ioDto.getFileslType())
+													&& !StringUtils.isEmpty(cobolIODto.getFileslType())
+													&& cobolIODto.getFileslType().equals(ioDto.getFileslType())) {
+												ioDto.setRecordKey(!StringUtils.isEmpty(cobolIODto.getRecordKey())
+														? cobolIODto.getRecordKey()
+														: null);
+												ioDto.setDateRecordKey(
+														!StringUtils.isEmpty(cobolIODto.getDateRecordKey())
+																? cobolIODto.getDateRecordKey()
+																: null);
+												ioDto.setIoType(!StringUtils.isEmpty(cobolIODto.getIoType())
+														? cobolIODto.getIoType()
+														: null);
+												ioDto.setAccessMode(!StringUtils.isEmpty(cobolIODto.getAccessMode())
+														? cobolIODto.getAccessMode()
+														: null);
+											}
+										} else if (!StringUtils.isEmpty(ioDto.getFileslType())) {
+											for (Map.Entry<String, CobolIODto> entry : map.entrySet()) {
+												CobolIODto cobolIODto = entry.getValue();
+												if (null != cobolIODto
+														&& !StringUtils.isEmpty(cobolIODto.getFileslType())
+														&& ioDto.getFileslType().equals(cobolIODto.getFileslType())) {
+													ioDto.setRecordKey(!StringUtils.isEmpty(cobolIODto.getRecordKey())
+															? cobolIODto.getRecordKey()
+															: null);
+													ioDto.setDateRecordKey(
+															!StringUtils.isEmpty(cobolIODto.getDateRecordKey())
+																	? cobolIODto.getDateRecordKey()
+																	: null);
+													ioDto.setIoType(!StringUtils.isEmpty(cobolIODto.getIoType())
+															? cobolIODto.getIoType()
+															: null);
+													ioDto.setAccessMode(!StringUtils.isEmpty(cobolIODto.getAccessMode())
+															? cobolIODto.getAccessMode()
+															: null);
+												}
+											}
+
+										}
+									}
+								}
+							}
+						}
+					}
+					if (!existFlag) {
+						iosDto.setNotes("対象資産が存在しません。");
+					}
+				}
+			} catch (Exception e) {
+				log.error("Cobol情報からJcl呼び出し関係を取得失敗；ステッブ名(EX)：" + iosDto.getSteveName());
+				e.printStackTrace();
+				throw e;
+			}
+		}
+		jclDto.setIosList(iosList);
 
 		log.info("Jcl情報の取得処理終了");
 	}
 
 	/**
 	 * ファイル入出力情報の取得処理
+	 * 
 	 * @param lines
 	 * @param jclDto
 	 * @return
@@ -73,6 +160,7 @@ public class JclService {
 		try {
 			List<JclIOsDto> iosList = new ArrayList<JclIOsDto>();
 
+			// EXList取得
 			List<Map<Integer, String>> EXList = new ArrayList<Map<Integer, String>>();
 			for (int i = 0; i < lines.size(); i++) {
 				lineNum = i + 1;
@@ -150,13 +238,13 @@ public class JclService {
 									useFlag = true;
 								}
 							}
-							if(useFlag) {
+							if (useFlag) {
 								ioList.add(ioDto);
 							}
 						}
-						
+
 					}
-					
+
 					if (split.length > 2 && ("SW").equals(split[1])) {
 						JclIODto ioDto = new JclIODto();
 						Map<String, String> map = Utils.stringToMap(split[2]);
@@ -172,7 +260,7 @@ public class JclService {
 								useFlag = true;
 							}
 						}
-						if(useFlag) {
+						if (useFlag) {
 							ioList.add(ioDto);
 						}
 					}
@@ -194,13 +282,11 @@ public class JclService {
 	 * 呼び出し関係取得
 	 * 
 	 * @param lines
-	 * @param fileList
 	 * @param startNum
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<JclCallDto> getJclCallInfo(List<String> lines, List<String> fileList, int startNum,
-			JclDto jclDto) throws Exception {
+	public static List<JclCallDto> getJclCallInfo(List<String> lines, int startNum, JclDto jclDto) throws Exception {
 		log.info("Jcl呼び出し関係情報解析:" + jclDto.getPgmName());
 
 		List<JclCallDto> callList = new ArrayList<JclCallDto>();

@@ -20,10 +20,9 @@ import freemarker.template.Template;
 
 public class JclWriterFreemarker {
 	private static final Logger log = Logger.getLogger(JclWriterFreemarker.class);
- 
-	
+
 	/**
-	 *  Jclページの生成
+	 * Jclページの生成
 	 * 
 	 * @param dataModel 静的データ
 	 * @throws Exception
@@ -59,7 +58,7 @@ public class JclWriterFreemarker {
 			out = new FileWriter(file);
 			template.process(dataModel, out);
 			out.close();
-			
+
 			log.info("Jclページの生成処理終了");
 		} catch (Exception e) {
 			log.error("Jclページの生成に失敗しました。");
@@ -71,7 +70,7 @@ public class JclWriterFreemarker {
 			}
 		}
 	}
-	
+
 	/**
 	 * Jclファイル入出力ページの生成
 	 * 
@@ -82,14 +81,14 @@ public class JclWriterFreemarker {
 		TopDto dto = (TopDto) dataModel.get("OutDto");
 		List<JclDto> jclList = dto.getJclList();
 		for (JclDto jcl : jclList) {
-			if(null != jcl.getIosList() && jcl.getIosList().size() > 0) {
+			if (null != jcl.getIosList() && jcl.getIosList().size() > 0) {
 				writerIO(jcl);
 			}
 		}
-		
+
 		log.info("Jclファイル入出力ページの生成処理すべて終了");
 	}
-	
+
 	/**
 	 * jclファイル入出力ページの生成
 	 * 
@@ -97,8 +96,8 @@ public class JclWriterFreemarker {
 	 * @throws Exception
 	 */
 	public static void writerIO(JclDto jcl) throws Exception {
-		log.info("Jclファイル入出力ページの生成:" + jcl.getRaipiraiName()+"/"+jcl.getPgmName());
-		
+		log.info("Jclファイル入出力ページの生成:" + jcl.getRaipiraiName() + "/" + jcl.getPgmName());
+
 		Map<Object, Object> data = new HashMap<Object, Object>();
 		data.put("jcl", jcl);
 		Writer out = null;
@@ -125,16 +124,16 @@ public class JclWriterFreemarker {
 			configuration.setDefaultEncoding("utf-8");
 			Template template = configuration.getTemplate("jcl_IO.ftl");
 
-			File file = new File(
-					download_file + "/jcl" + "/" + jcl.getRaipiraiName()  + "/" + jcl.getRaipiraiName() + "_" + jcl.getPgmName() + "_IO.html");
+			File file = new File(download_file + "/jcl" + "/" + jcl.getRaipiraiName() + "/" + jcl.getRaipiraiName()
+					+ "_" + jcl.getPgmName() + "_IO.html");
 			Utils.createFile(file);
 
 			out = new FileWriter(file);
 			template.process(data, out);
 			out.close();
-			
+
 		} catch (Exception e) {
-			log.error("Jclファイル入出力ページの生成失敗:" + jcl.getRaipiraiName()+"/"+jcl.getPgmName());
+			log.error("Jclファイル入出力ページの生成失敗:" + jcl.getRaipiraiName() + "/" + jcl.getPgmName());
 			e.printStackTrace();
 			throw e;
 		} finally {
@@ -143,7 +142,7 @@ public class JclWriterFreemarker {
 			}
 		}
 	}
-	
+
 	/**
 	 * Jcl呼び出し関係ページの生成
 	 * 
@@ -158,10 +157,10 @@ public class JclWriterFreemarker {
 				writerCall(jcl);
 			}
 		}
-		
+
 		log.info("Jcl呼び出し関係ページの生成処理すべて終了");
 	}
-	
+
 	/**
 	 * Cobol呼び出し関係ページの生成
 	 * 
@@ -169,8 +168,8 @@ public class JclWriterFreemarker {
 	 * @throws Exception
 	 */
 	public static void writerCall(JclDto jcl) throws Exception {
-		log.info("Jcl呼び出し関係ページの生成:" + jcl.getRaipiraiName()+"/"+jcl.getPgmName());
-		
+		log.info("Jcl呼び出し関係ページの生成:" + jcl.getRaipiraiName() + "/" + jcl.getPgmName());
+
 		Map<Object, Object> data = new HashMap<Object, Object>();
 		data.put("jcl", jcl);
 		Writer out = null;
@@ -197,8 +196,8 @@ public class JclWriterFreemarker {
 			configuration.setDefaultEncoding("utf-8");
 			Template template = configuration.getTemplate("jcl_CALL.ftl");
 
-			File file = new File(
-					download_file + "/jcl" + "/" + jcl.getRaipiraiName() + "/" + jcl.getRaipiraiName() + "_" + jcl.getPgmName() + "_CALL.html");
+			File file = new File(download_file + "/jcl" + "/" + jcl.getRaipiraiName() + "/" + jcl.getRaipiraiName()
+					+ "_" + jcl.getPgmName() + "_CALL.html");
 			Utils.createFile(file);
 
 			out = new FileWriter(file);
@@ -206,7 +205,7 @@ public class JclWriterFreemarker {
 			out.close();
 
 		} catch (Exception e) {
-			log.error("Jcl呼び出し関係ページの生成失敗:" + jcl.getRaipiraiName()+"/"+jcl.getPgmName());
+			log.error("Jcl呼び出し関係ページの生成失敗:" + jcl.getRaipiraiName() + "/" + jcl.getPgmName());
 			e.printStackTrace();
 			throw e;
 		} finally {

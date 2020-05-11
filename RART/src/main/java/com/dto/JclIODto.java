@@ -26,8 +26,7 @@ public class JclIODto {
 	// アクセスモード
 	private String accessMode;
 
-	// 備考
-	private String notes;
+	
 
 	public String getFilesName() {
 		return filesName;
@@ -75,14 +74,6 @@ public class JclIODto {
 
 	public void setAccessMode(String accessMode) {
 		this.accessMode = accessMode;
-	}
-
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
 	}
 
 }

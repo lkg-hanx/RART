@@ -48,7 +48,12 @@ public class CobolService {
 		}
 
 		// ファイル入出力
-		cobolDto.setIoList(getCobolIOInfo(lines, cobolDto));
+		Map<String, CobolIODto> map = getCobolIOInfo(lines, cobolDto);
+		List<CobolIODto> ioDtoList = new ArrayList<CobolIODto>();
+		for (CobolIODto value : map.values()) {
+			ioDtoList.add(value);
+		}
+		cobolDto.setIoList(ioDtoList);
 
 		// 呼び出し関係
 		List<CobolCallDto> callList = getCobolCallInfo(lines, fileList, startNum, cobolDto);
@@ -68,7 +73,7 @@ public class CobolService {
 	 * @return
 	 * @throws Exception
 	 */
-	public static List<CobolIODto> getCobolIOInfo(List<String> lines, CobolDto cobolDto) throws Exception {
+	public static Map<String, CobolIODto> getCobolIOInfo(List<String> lines, CobolDto cobolDto) throws Exception {
 		log.info("Cobol入出力情報解析:" + cobolDto.getPgmName());
 
 		Map<String, CobolIODto> map = new HashMap<String, CobolIODto>();
@@ -179,11 +184,7 @@ public class CobolService {
 			throw e;
 		}
 
-		List<CobolIODto> ioDtoList = new ArrayList<CobolIODto>();
-		for (CobolIODto value : map.values()) {
-			ioDtoList.add(value);
-		}
-		return ioDtoList;
+		return map;
 
 	}
 

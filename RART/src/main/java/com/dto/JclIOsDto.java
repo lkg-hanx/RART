@@ -15,6 +15,9 @@ public class JclIOsDto {
 	
 	// 入出力情報
 	private List<JclIODto> ioList;
+	
+	// 備考
+	private String notes;
 		
 	public String getSteveName() {
 		return steveName;
@@ -30,5 +33,13 @@ public class JclIOsDto {
 
 	public void setIoList(List<JclIODto> ioList) {
 		this.ioList = ioList;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 }

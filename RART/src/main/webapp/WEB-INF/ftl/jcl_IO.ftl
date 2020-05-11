@@ -118,24 +118,33 @@
 												${ioDto.accessMode}
 												<#else>-</#if>
 											</td>
-											<td class="td_150 table_border">
-												<#if ioDto.notes??>
-												${ioDto.notes}
-												</#if>
-											</td>
-										</tr>
+											<#if ioDto_index == 0 >
+												<td 
+													<#if iosDto.ioList?? && (iosDto.ioList?size gt 0) >
+														rowspan='${iosDto.ioList?size}' 
+													</#if>
+													style="vertical-align: top; color:#F00" class="td_150 table_border">
+													<#if iosDto.notes??>
+														${iosDto.notes}
+													</#if>
+												</td>
+											</#if>
+											</tr>
 										</#list>
 									<#else>
-										<td class="td_100 table_border">§ §∑</td>
+										<td class="td_100 table_border">„Å™„Åó</td>
 										<td class="td_100 table_border">-</td>
 										<td class="td_100 table_border">-</td>
 										<td class="td_150 table_border">-</td>
 										<td class="td_80 table_border">-</td>
 										<td class="td_120 table_border">-</td>
-										<td class="td_150 table_border"></td>
-										</tr>
+										<td class="td_150 table_border" style="color:#F00" >
+											<#if iosDto.notes??>
+												${iosDto.notes}
+											</#if>
+										</td>
 									</#if>
-								  </#list>
+								</#list>
 								</table>
 								<br/>
 								<div class="center">

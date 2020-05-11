@@ -72,7 +72,7 @@ public class begin {
 			} else {
 				Utils.readfile(jclUploadFile, jclFileList);
 				dto.setJclFilesSize(jclFileList.size() + "");
-				jcl(jclFileList, prop, dto);
+				jcl(jclFileList, prop, dto, cobolFileList);
 			}
 
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -204,7 +204,7 @@ public class begin {
 	 * @param prop
 	 * @throws Exception
 	 */
-	private static void jcl(List<String> fileList, Properties prop, TopDto dto) throws Exception {
+	private static void jcl(List<String> fileList, Properties prop, TopDto dto, List<String> cobolFileList) throws Exception {
 
 		int totalNum = 0;
 		int validNum = 0;
@@ -226,12 +226,11 @@ public class begin {
 			// ライプライ名
 			String[] paths = path.split("\\\\");
 			jclDto.setRaipiraiName(paths[paths.length - 2]);
-			
+			jclDto.setPgmName(paths[paths.length - 1].substring(0, paths[paths.length - 1].lastIndexOf(".")));
 			// ファイルの内容取得
 			List<String> lines = ReadFile.read(path);
 			if (null == lines || lines.size() == 0) {
 				log.error("ファイルが空:" + path);
-				jclDto.setPgmName(paths[paths.length - 1].substring(0, paths[paths.length - 1].lastIndexOf(".")));
 				jclList.add(jclDto);
 				String formatPath = prop.getProperty("download_file") + "\\format\\" + jclDto.getRaipiraiName() + "\\"
 						+ paths[paths.length - 1];
@@ -262,7 +261,7 @@ public class begin {
 			WriteFile.write(formatPath, content);
 			
 			// Jcl情報
-			JclService.getJclInfo(path, fileList, startNum, jclDto, lines);
+			JclService.getJclInfo(path, cobolFileList, startNum, jclDto, lines);
 
 			// 同名資産check
 			if (null == checkMap.get(jclDto.getPgmName())) {

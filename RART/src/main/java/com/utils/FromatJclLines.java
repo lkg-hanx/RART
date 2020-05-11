@@ -63,28 +63,32 @@ public class FromatJclLines {
 		List<String> newLines = new ArrayList<String>();
 
 		String newLine = "";
-		for(int i =0;i<lines.size();i++) {
+		for (int i = 0; i < lines.size(); i++) {
 			String line = lines.get(i);
-			if (("\\").equals(line.substring(startNum, startNum + 1)) && (i+1 == lines.size() ||  ("\\").equals(lines.get(i+1).substring(startNum, startNum + 1)))) {
+			if (("\\").equals(line.substring(startNum, startNum + 1))
+					&& (i + 1 == lines.size() || ("\\").equals(lines.get(i + 1).substring(startNum, startNum + 1)))) {
 				newLine = line;
-			}else if (("\\").equals(line.substring(startNum, startNum + 1)) && !("\\").equals(lines.get(i+1).substring(startNum, startNum + 1))) {
+			} else if (("\\").equals(line.substring(startNum, startNum + 1))
+					&& !("\\").equals(lines.get(i + 1).substring(startNum, startNum + 1))) {
 				newLine = line;
 				continue;
-			}else if (!("\\").equals(line.substring(startNum, startNum + 1)) &&(i+1 == lines.size() ||  !("\\").equals(lines.get(i+1).substring(startNum, startNum + 1)))) {
-				if((",").equals(newLine.substring(newLine.length()-1))){
-					newLine = newLine+ line.substring(startNum).trim();
-				}else {
+			} else if (!("\\").equals(line.substring(startNum, startNum + 1))
+					&& (i + 1 == lines.size() || !("\\").equals(lines.get(i + 1).substring(startNum, startNum + 1)))) {
+				if ((",").equals(newLine.substring(newLine.length() - 1))) {
+					newLine = newLine + line.substring(startNum).trim();
+				} else {
 					newLine = newLine + " " + line.substring(startNum);
 				}
 				continue;
-			}else if (!("\\").equals(line.substring(startNum, startNum + 1)) && ("\\").equals(lines.get(i+1).substring(startNum, startNum + 1))) {
-				if((",").equals(newLine.substring(newLine.length()-1))){
-					newLine = newLine+ line.substring(startNum).trim();
-				}else {
+			} else if (!("\\").equals(line.substring(startNum, startNum + 1))
+					&& ("\\").equals(lines.get(i + 1).substring(startNum, startNum + 1))) {
+				if ((",").equals(newLine.substring(newLine.length() - 1))) {
+					newLine = newLine + line.substring(startNum).trim();
+				} else {
 					newLine = newLine + " " + line.substring(startNum);
 				}
 			}
-				
+
 			newLines.add(newLine);
 			newLine = "";
 		}

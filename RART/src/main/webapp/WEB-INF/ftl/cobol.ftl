@@ -121,10 +121,10 @@
 								<br/>
 								<div class="center">
 									
-									<#if OutDto.cobolFilesSize?number / 100 gt 1 >
+									<#if OutDto.cobolFilesSize?number / 5000 gt 1 >
 										<#assign pageNum=1>
 										<#list OutDto.cobolList as cobol>
-											<#if cobol_index % 100 == 0>
+											<#if cobol_index % 5000 == 0>
 												<a href="javascript:showTr('${pageNum}');">${pageNum}</a>
 												<#assign pageNum=pageNum + 1>
 											</#if>
@@ -143,7 +143,7 @@
 <script>
 	var theTable = document.getElementById("cobol_page");
 	var numberRowsInTable = theTable.rows.length;   
-	var pageSize=100;
+	var pageSize=5000;
 	
 	window.onload=function(){
 		if(numberRowsInTable>pageSize){
