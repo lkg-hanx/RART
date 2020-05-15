@@ -170,7 +170,7 @@
 			var url = "<a href=\"javascript:showTr('"+pageNum+"');\">次ページ</a>";
 			spanNext.innerHTML = url;
 		}
-
+		document.body.scrollTop = document.documentElement.scrollTop = 0;
 	}
 	 
 
